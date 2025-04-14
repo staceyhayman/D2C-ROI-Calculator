@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shop Campaign ROAS Calculator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        input[type="number"], input[type="range"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .metric {
+            background-color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .metric-title {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+        .metric-detail {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .explanation {
+            grid-column: 1 / -1;
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>💰 Shop Campaign ROAS Calculator</h1>
+    <div class="container">
+        <div class="inputs">
+            <h2>Campaign Details</h2>
+            <div class="input-group">
+                <label for="revenue">Total Revenue ($)</label>
+                <input type="number" id="revenue" value="1000" min="0" step="100">
+            </div>
+            <div class="input-group">
+                <label for="adSpend">Ad Spend ($)</label>
+                <input type="number" id="adSpend" value="500" min="0" step="50">
+            </div>
+            <div class="input-group">
+                <label for="newBuyerShare">Share of New Buyers (%)</label>
+                <input type="range" id="newBuyerShare" value="20" min="0" max="100" step="1">
+                <span id="newBuyerShareValue">20%</span>
+            </div>
+            <div class="input-group">
+                <label for="discountPercentage">Discount Percentage for New Buyers (%)</label>
+                <input type="range" id="discountPercentage" value="20" min="0" max="100" step="1">
+                <span id="discountPercentageValue">20%</span>
+            </div>
+            <button onclick="calculateROAS()">Calculate ROAS</button>
+        </div>
+        
+        <div class="results">
+            <h2>Results</h2>
+            <div class="metric">
+                <div class="metric-title">Traditional ROAS (Meta/Google)</div>
+                <div class="metric-value" id="traditionalRoas">2.00x</div>
+                <div class="metric-detail">Revenue / Ad Spend</div>
+            </div>
+            <div class="metric">
+                <div class="metric-title">Adjusted ROAS (Shop Campaigns)</div>
+                <div class="metric-value" id="adjustedRoas">1.92x</div>
+                <div class="metric-detail">Revenue / (Ad Spend + Discount)</div>
+            </div>
+            <div class="metric">
+                <div class="metric-title">Cost Breakdown</div>
+                <div class="metric-detail" id="costBreakdown">
+                    Base Ad Spend: $500<br>
+                    New Buyer Discount: $20<br>
+                    Total Cost: $520
+                </div>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h3>📝 Understanding the Results</h3>
+            <ul>
+                <li><strong>Traditional ROAS:</strong> How platforms like Meta and Google calculate returns, considering only the direct ad spend</li>
+                <li><strong>Adjusted ROAS:</strong> Includes both ad spend and new buyer discounts, showing the true cost of customer acquisition</li>
+                <li><strong>New Buyer Impact:</strong> Discounts are only applied to the portion of spend attributed to new buyers</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Update range input displays
+        document.getElementById('newBuyerShare').addEventListener('input', function(e) {
+            document.getElementById('newBuyerShareValue').textContent = e.target.value + '%';
+        });
+        document.getElementById('discountPercentage').addEventListener('input', function(e) {
+            document.getElementById('discountPercentageValue').textContent = e.target.value + '%';
+        });
+
+        function calculateROAS() {
+            // Get input values
+            const revenue = parseFloat(document.getElementById('revenue').value);
+            const adSpend = parseFloat(document.getElementById('adSpend').value);
+            const newBuyerShare = parseFloat(document.getElementById('newBuyerShare').value);
+            const discountPercentage = parseFloat(document.getElementById('discountPercentage').value);
+
+            // Calculate new buyer ad spend and discount
+            const newBuyerAdSpend = adSpend * (newBuyerShare / 100);
+            const discountAmount = newBuyerAdSpend * (discountPercentage / 100);
+            const totalCost = adSpend + discountAmount;
+
+            // Calculate ROAS metrics
+            const traditionalRoas = revenue / adSpend;
+            const adjustedRoas = revenue / totalCost;
+
+            // Update display
+            document.getElementById('traditionalRoas').textContent = traditionalRoas.toFixed(2) + 'x';
+            document.getElementById('adjustedRoas').textContent = adjustedRoas.toFixed(2) + 'x';
+            document.getElementById('costBreakdown').innerHTML = `
+                Base Ad Spend: $${adSpend.toFixed(2)}<br>
+                New Buyer Ad Spend: $${newBuyerAdSpend.toFixed(2)} (${newBuyerShare}% of total)<br>
+                Discount Amount: $${discountAmount.toFixed(2)} (${discountPercentage}% on new buyer spend)<br>
+                Total Cost: $${totalCost.toFixed(2)}
+            `;
+        }
+
+        // Calculate initial values
+        calculateROAS();
+    </script>
+</body>
+</html> 
