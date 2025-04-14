@@ -94,6 +94,61 @@
             padding: 2px 5px;
             border-radius: 3px;
         }
+        .benchmarks {
+            grid-column: 1 / -1;
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .benchmark-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .benchmark-table th, .benchmark-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .benchmark-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .benchmark-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        .info-icon {
+            color: #6c757d;
+            cursor: help;
+            margin-left: 5px;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -154,6 +209,92 @@
                 <li><strong>Example:</strong> If Meta shows 2.0x ROAS but you're giving 20% discounts to new buyers (20% of traffic), your true ROAS might be closer to 1.92x</li>
             </ul>
         </div>
+    </div>
+
+    <div class="benchmarks">
+        <h3>📊 Industry Benchmarks</h3>
+        <p>Use these benchmarks to compare your performance against industry standards. Note that these are general ranges and actual values may vary based on specific business models and market conditions.</p>
+        
+        <table class="benchmark-table">
+            <thead>
+                <tr>
+                    <th>Industry</th>
+                    <th>
+                        Typical ROAS
+                        <span class="tooltip">ℹ️
+                            <span class="tooltiptext">Return on Ad Spend before accounting for discounts</span>
+                        </span>
+                    </th>
+                    <th>
+                        CAC
+                        <span class="tooltip">ℹ️
+                            <span class="tooltiptext">Customer Acquisition Cost</span>
+                        </span>
+                    </th>
+                    <th>
+                        Common Discounts
+                        <span class="tooltip">ℹ️
+                            <span class="tooltiptext">Typical discount offers for new customers</span>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Fashion/Apparel</td>
+                    <td>3.0x - 5.0x</td>
+                    <td>$40 - $80</td>
+                    <td>10% - 20%</td>
+                </tr>
+                <tr>
+                    <td>Beauty/Cosmetics</td>
+                    <td>3.5x - 6.0x</td>
+                    <td>$30 - $60</td>
+                    <td>15% - 25%</td>
+                </tr>
+                <tr>
+                    <td>Electronics</td>
+                    <td>2.5x - 4.0x</td>
+                    <td>$80 - $150</td>
+                    <td>5% - 15%</td>
+                </tr>
+                <tr>
+                    <td>Home Goods</td>
+                    <td>3.0x - 5.5x</td>
+                    <td>$50 - $100</td>
+                    <td>10% - 20%</td>
+                </tr>
+                <tr>
+                    <td>Food & Beverage</td>
+                    <td>4.0x - 7.0x</td>
+                    <td>$20 - $45</td>
+                    <td>10% - 30%</td>
+                </tr>
+                <tr>
+                    <td>Luxury Goods</td>
+                    <td>2.0x - 3.5x</td>
+                    <td>$150 - $300</td>
+                    <td>5% - 10%</td>
+                </tr>
+                <tr>
+                    <td>Health & Wellness</td>
+                    <td>3.5x - 5.5x</td>
+                    <td>$45 - $90</td>
+                    <td>15% - 25%</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p style="margin-top: 15px; font-size: 14px; color: #666;">
+            <strong>Note:</strong> These benchmarks are aggregated from various industry reports and may vary by:
+            <ul>
+                <li>Geographic region</li>
+                <li>Business size</li>
+                <li>Product price point</li>
+                <li>Marketing channel mix</li>
+                <li>Seasonality</li>
+            </ul>
+        </p>
     </div>
 
     <script>
