@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Shop Campaign ROAS Calculator</title>
+    <title>True ROAS Calculator</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -74,6 +74,10 @@
             color: #666;
             margin-top: 5px;
         }
+        .metric-warning {
+            color: #dc3545;
+            font-weight: 500;
+        }
         h1 {
             color: #333;
             margin-bottom: 30px;
@@ -85,10 +89,15 @@
             border-radius: 8px;
             margin-top: 20px;
         }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
-    <h1>💰 Shop Campaign ROAS Calculator</h1>
+    <h1>💰 True ROAS Calculator</h1>
     <div class="container">
         <div class="inputs">
             <h2>Campaign Details</h2>
@@ -110,27 +119,28 @@
                 <input type="range" id="discountPercentage" value="20" min="0" max="100" step="1">
                 <span id="discountPercentageValue">20%</span>
             </div>
-            <button onclick="calculateROAS()">Calculate ROAS</button>
+            <button onclick="calculateROAS()">Calculate True ROAS</button>
         </div>
         
         <div class="results">
             <h2>Results</h2>
             <div class="metric">
-                <div class="metric-title">Traditional ROAS (Meta/Google)</div>
-                <div class="metric-value" id="traditionalRoas">2.00x</div>
+                <div class="metric-title">Reported ROAS (Meta/Google)</div>
+                <div class="metric-value" id="reportedRoas">2.00x</div>
                 <div class="metric-detail">Revenue / Ad Spend</div>
+                <div class="metric-warning">⚠️ Does not include discount costs</div>
             </div>
             <div class="metric">
-                <div class="metric-title">Adjusted ROAS (Shop Campaigns)</div>
-                <div class="metric-value" id="adjustedRoas">1.92x</div>
+                <div class="metric-title">True ROAS</div>
+                <div class="metric-value" id="trueRoas">1.92x</div>
                 <div class="metric-detail">Revenue / (Ad Spend + Discount)</div>
             </div>
             <div class="metric">
-                <div class="metric-title">Cost Breakdown</div>
+                <div class="metric-title">Hidden Costs</div>
                 <div class="metric-detail" id="costBreakdown">
                     Base Ad Spend: $500<br>
-                    New Buyer Discount: $20<br>
-                    Total Cost: $520
+                    <span class="highlight">Hidden Discount Cost: $20</span><br>
+                    Actual Total Cost: $520
                 </div>
             </div>
         </div>
@@ -138,9 +148,10 @@
         <div class="explanation">
             <h3>📝 Understanding the Results</h3>
             <ul>
-                <li><strong>Traditional ROAS:</strong> How platforms like Meta and Google calculate returns, considering only the direct ad spend</li>
-                <li><strong>Adjusted ROAS:</strong> Includes both ad spend and new buyer discounts, showing the true cost of customer acquisition</li>
-                <li><strong>New Buyer Impact:</strong> Discounts are only applied to the portion of spend attributed to new buyers</li>
+                <li><strong>Reported ROAS:</strong> What Meta/Google show in their dashboards (ignores discount costs)</li>
+                <li><strong>True ROAS:</strong> The actual return when including all costs (including discounts)</li>
+                <li><strong>Impact:</strong> Meta/Google ROAS appears higher because it doesn't account for discount costs on new buyers</li>
+                <li><strong>Example:</strong> If Meta shows 2.0x ROAS but you're giving 20% discounts to new buyers (20% of traffic), your true ROAS might be closer to 1.92x</li>
             </ul>
         </div>
     </div>
@@ -167,17 +178,19 @@
             const totalCost = adSpend + discountAmount;
 
             // Calculate ROAS metrics
-            const traditionalRoas = revenue / adSpend;
-            const adjustedRoas = revenue / totalCost;
+            const reportedRoas = revenue / adSpend;
+            const trueRoas = revenue / totalCost;
+            const roasOverstatement = ((reportedRoas - trueRoas) / trueRoas * 100).toFixed(1);
 
             // Update display
-            document.getElementById('traditionalRoas').textContent = traditionalRoas.toFixed(2) + 'x';
-            document.getElementById('adjustedRoas').textContent = adjustedRoas.toFixed(2) + 'x';
+            document.getElementById('reportedRoas').textContent = reportedRoas.toFixed(2) + 'x';
+            document.getElementById('trueRoas').textContent = trueRoas.toFixed(2) + 'x';
             document.getElementById('costBreakdown').innerHTML = `
                 Base Ad Spend: $${adSpend.toFixed(2)}<br>
-                New Buyer Ad Spend: $${newBuyerAdSpend.toFixed(2)} (${newBuyerShare}% of total)<br>
-                Discount Amount: $${discountAmount.toFixed(2)} (${discountPercentage}% on new buyer spend)<br>
-                Total Cost: $${totalCost.toFixed(2)}
+                <span class="highlight">Hidden Discount Cost: $${discountAmount.toFixed(2)} (${discountPercentage}% on ${newBuyerShare}% of spend)</span><br>
+                Actual Total Cost: $${totalCost.toFixed(2)}<br>
+                <br>
+                <strong>Meta/Google overstates ROAS by ${roasOverstatement}%</strong>
             `;
         }
 
