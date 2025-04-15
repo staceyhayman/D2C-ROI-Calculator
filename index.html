@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>True ROAS Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -12,10 +13,10 @@
         }
         .container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 30px;
             background-color: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
@@ -24,25 +25,44 @@
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: #333;
             font-weight: 500;
         }
-        input[type="number"], input[type="range"] {
-            width: 100%;
-            padding: 8px;
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             margin-bottom: 5px;
+            font-size: 16px;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
         }
         button {
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+                padding: 30px;
+            }
+            body {
+                padding: 40px;
+            }
+            button {
+                width: auto;
+            }
         }
         button:hover {
             background-color: #0056b3;
@@ -59,28 +79,39 @@
             margin-bottom: 15px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+        }
+        h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
         .metric-title {
             color: #666;
             font-size: 14px;
             margin-bottom: 5px;
         }
         .metric-value {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
             color: #333;
+            margin: 10px 0;
         }
         .metric-detail {
             font-size: 14px;
             color: #666;
-            margin-top: 5px;
         }
         .metric-warning {
             color: #dc3545;
             font-weight: 500;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
+            margin-top: 5px;
         }
         .explanation {
             grid-column: 1 / -1;
@@ -88,6 +119,13 @@
             padding: 20px;
             border-radius: 8px;
             margin-top: 20px;
+        }
+        .explanation ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        .explanation li {
+            margin-bottom: 8px;
         }
         .highlight {
             background-color: #fff3cd;
@@ -101,23 +139,24 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-x: auto;
         }
         .benchmark-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
+            min-width: 600px;
         }
         .benchmark-table th, .benchmark-table td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #eee;
+            font-size: 14px;
         }
-        .benchmark-table th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-        .benchmark-table tr:hover {
-            background-color: #f8f9fa;
+        @media (min-width: 768px) {
+            .benchmark-table th, .benchmark-table td {
+                font-size: 16px;
+            }
         }
         .info-icon {
             color: #6c757d;
@@ -135,7 +174,7 @@
             color: #fff;
             text-align: center;
             border-radius: 6px;
-            padding: 5px;
+            padding: 8px;
             position: absolute;
             z-index: 1;
             bottom: 125%;
@@ -148,6 +187,15 @@
         .tooltip:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
+        }
+        .range-value {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: 500;
+            color: #007bff;
+        }
+        #costBreakdown {
+            line-height: 1.6;
         }
     </style>
 </head>
