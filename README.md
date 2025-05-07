@@ -1,40 +1,52 @@
-# True ROAS Calculator
+# Merchant ROI Calculator
 
-A simple tool to calculate the true Return on Ad Spend (ROAS) by accounting for new buyer discounts that Meta and Google analytics don't include in their calculations.
+A web-based calculator that helps merchants estimate their Return on Investment (ROI) when upgrading their Shopify plan. This calculator takes into account various growth scenarios and features to provide detailed ROI projections.
 
-## 🎯 Purpose
+## Features
 
-Meta and Google's ROAS calculations don't account for discount costs given to new buyers, which makes their reported ROAS appear higher than reality. This calculator helps you:
+- Growth scenario analysis (Low/Medium/High)
+- Detailed feature impact calculations
+- Real-time ROI projections
+- Comprehensive cost breakdown
+- Support for multiple merchant metrics
 
-- See your true ROAS when including discount costs
-- Understand how much Meta/Google overstate ROAS
-- Make better campaign performance comparisons
+## Setup
 
-## 🚀 Try It Out
+1. Clone the repository:
+```bash
+git clone https://github.com/YOUR_USERNAME/Merchant-ROI-Calculator.git
+cd Merchant-ROI-Calculator
+```
 
-You can use the calculator directly at: [SoumyaRaja123.github.io/roas-calculator](https://SoumyaRaja123.github.io/roas-calculator)
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-## 💡 How It Works
+3. Run the calculator:
+```bash
+streamlit run roi_calculator.py
+```
 
-1. Enter your campaign details:
-   - Total Revenue
-   - Ad Spend
-   - Share of New Buyers (%)
-   - Discount Percentage for New Buyers (%)
+## Usage
 
-2. The calculator shows:
-   - Reported ROAS (what Meta/Google show)
-   - True ROAS (including discount costs)
-   - Hidden costs breakdown
-   - Percentage by which Meta/Google overstate ROAS
+1. Open the calculator in your web browser
+2. Enter your merchant metrics:
+   - Annual GMV
+   - Average Order Value (AOV)
+   - Annual Transactions
+   - Profit Margin
+   - Other relevant metrics
 
-## 🛠️ Technical Details
+3. View the results:
+   - Growth from Upgrading summary
+   - Individual feature impact analysis
+   - ROI projections for each scenario
 
-- Built with pure HTML, CSS, and JavaScript
-- No external dependencies
-- Mobile-responsive design
-- Works offline
+## Contributing
 
-## 📝 License
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-MIT License - feel free to use and modify as needed! 
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details. 
