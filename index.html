@@ -1,502 +1,508 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>True ROAS Calculator</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant ROI Calculator</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f8f9fa;
-            position: relative;
+            font-family: Arial, sans-serif;
+            margin: 20px;
         }
         .container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .input-group {
+        table {
+            border-collapse: collapse;
+            width: 100%;
             margin-bottom: 20px;
         }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
         }
         input[type="number"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 5px;
-            font-size: 16px;
+            width: 100px;
+            padding: 5px;
         }
-        input[type="range"] {
-            width: 100%;
-            margin: 10px 0;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            margin-top: 10px;
-        }
-        @media (min-width: 768px) {
-            .container {
-                grid-template-columns: 1fr 1fr;
-                padding: 30px;
-            }
-            body {
-                padding: 40px;
-            }
-            button {
-                width: auto;
-            }
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .results {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .metric {
-            background-color: white;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
+        .section {
             margin-bottom: 30px;
-            font-size: 24px;
         }
-        @media (min-width: 768px) {
-            h1 {
-                font-size: 32px;
-            }
-        }
-        h2 {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
-        .metric-title {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        .metric-value {
-            font-size: 28px;
-            font-weight: 600;
-            color: #333;
-            margin: 10px 0;
-        }
-        .metric-detail {
-            font-size: 14px;
-            color: #666;
-        }
-        .metric-warning {
-            color: #dc3545;
-            font-weight: 500;
-            margin-top: 5px;
-        }
-        .explanation {
-            grid-column: 1 / -1;
-            background-color: #e9ecef;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        .explanation ul {
-            padding-left: 20px;
-            margin-top: 10px;
-        }
-        .explanation li {
-            margin-bottom: 8px;
-        }
-        .highlight {
-            background-color: #fff3cd;
-            padding: 2px 5px;
-            border-radius: 3px;
-        }
-        .benchmarks {
-            grid-column: 1 / -1;
-            margin-top: 30px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            overflow-x: auto;
-        }
-        .benchmark-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            min-width: 600px;
-        }
-        .benchmark-table th, .benchmark-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-            font-size: 14px;
-        }
-        @media (min-width: 768px) {
-            .benchmark-table th, .benchmark-table td {
-                font-size: 16px;
-            }
-        }
-        .info-icon {
-            color: #6c757d;
-            cursor: help;
-            margin-left: 5px;
-        }
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 200px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 8px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -100px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 12px;
-        }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-        .range-value {
-            display: inline-block;
-            margin-left: 10px;
-            font-weight: 500;
-            color: #007bff;
-        }
-        #costBreakdown {
-            line-height: 1.6;
-        }
-        
-        /* View Toggle Icons */
-        .view-icons {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            display: flex;
-            gap: 10px;
-            z-index: 100;
-        }
-
-        .view-icon {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .view-icon:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .view-icon.active {
-            border-color: #007bff;
-            color: #007bff;
-        }
-
-        .view-icon svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        /* Force Mobile View */
-        .force-mobile {
-            max-width: 480px !important;
-        }
-        
-        .force-mobile .container {
-            grid-template-columns: 1fr !important;
-            padding: 20px !important;
-        }
-        
-        .force-mobile button {
-            width: 100% !important;
-        }
-        
-        /* Force Desktop View */
-        .force-desktop {
-            max-width: 1200px !important;
-            padding: 40px !important;
-        }
-        
-        .force-desktop .container {
-            grid-template-columns: 1fr 1fr !important;
-            padding: 30px !important;
-        }
-        
-        .force-desktop button {
-            width: auto !important;
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>💰 True ROAS Calculator</h1>
-    
-    <div class="view-icons">
-        <div class="view-icon active" title="Desktop View">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-            </svg>
-        </div>
-        <div class="view-icon" title="Mobile View">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                <line x1="12" y1="18" x2="12" y2="18"></line>
-            </svg>
-        </div>
-    </div>
-
     <div class="container">
-        <div class="inputs">
-            <h2>Campaign Details</h2>
-            <div class="input-group">
-                <label for="revenue">Total Revenue ($)</label>
-                <input type="number" id="revenue" value="1000" min="0" step="100">
-            </div>
-            <div class="input-group">
-                <label for="adSpend">Ad Spend ($)</label>
-                <input type="number" id="adSpend" value="500" min="0" step="50">
-            </div>
-            <div class="input-group">
-                <label for="newBuyerShare">Share of New Buyers (%)</label>
-                <input type="range" id="newBuyerShare" value="20" min="0" max="100" step="1">
-                <span id="newBuyerShareValue">20%</span>
-            </div>
-            <div class="input-group">
-                <label for="discountPercentage">Discount Percentage for New Buyers (%)</label>
-                <input type="range" id="discountPercentage" value="20" min="0" max="100" step="1">
-                <span id="discountPercentageValue">20%</span>
-            </div>
-            <button onclick="calculateROAS()">Calculate True ROAS</button>
-        </div>
+        <h1>Merchant ROI Calculator</h1>
         
-        <div class="results">
-            <h2>Results</h2>
-            <div class="metric">
-                <div class="metric-title">Reported ROAS (Meta/Google)</div>
-                <div class="metric-value" id="reportedRoas">2.00x</div>
-                <div class="metric-detail">Revenue / Ad Spend</div>
-                <div class="metric-warning">⚠️ Does not include discount costs</div>
-            </div>
-            <div class="metric">
-                <div class="metric-title">True ROAS</div>
-                <div class="metric-value" id="trueRoas">1.92x</div>
-                <div class="metric-detail">Revenue / (Ad Spend + Discount)</div>
-            </div>
-            <div class="metric">
-                <div class="metric-title">Hidden Costs</div>
-                <div class="metric-detail" id="costBreakdown">
-                    Base Ad Spend: $500<br>
-                    <span class="highlight">Hidden Discount Cost: $20</span><br>
-                    Actual Total Cost: $520
-                </div>
-            </div>
+        <!-- Growth from Upgrading Table -->
+        <div class="section">
+            <div class="section-title">Growth from Upgrading</div>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Low Growth</th>
+                    <th>Medium Growth</th>
+                    <th>High Growth</th>
+                </tr>
+                <tr>
+                    <td>Checkout Customization with API</td>
+                    <td id="checkout-custom-low">$0.00</td>
+                    <td id="checkout-custom-medium">$0.00</td>
+                    <td id="checkout-custom-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Checkout Upsell with 3P apps</td>
+                    <td id="checkout-upsell-low">$0.00</td>
+                    <td id="checkout-upsell-medium">$0.00</td>
+                    <td id="checkout-upsell-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Plus Support Help</td>
+                    <td id="plus-support-low">$0.00</td>
+                    <td id="plus-support-medium">$0.00</td>
+                    <td id="plus-support-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Increased Retargeting with Audiences</td>
+                    <td id="audiences-low">$0.00</td>
+                    <td id="audiences-medium">$0.00</td>
+                    <td id="audiences-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Increased Conversion with Shop Pay</td>
+                    <td id="shop-pay-conv-low">$0.00</td>
+                    <td id="shop-pay-conv-medium">$0.00</td>
+                    <td id="shop-pay-conv-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Increased AOV with Shop Pay</td>
+                    <td id="shop-pay-aov-low">$0.00</td>
+                    <td id="shop-pay-aov-medium">$0.00</td>
+                    <td id="shop-pay-aov-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Increased Conversion without Shop Pay</td>
+                    <td id="non-shop-pay-low">$0.00</td>
+                    <td id="non-shop-pay-medium">$0.00</td>
+                    <td id="non-shop-pay-high">$0.00</td>
+                </tr>
+            </table>
         </div>
 
-        <div class="explanation">
-            <h3>📝 Understanding the Results</h3>
-            <ul>
-                <li><strong>Reported ROAS:</strong> What Meta/Google show in their dashboards (ignores discount costs)</li>
-                <li><strong>True ROAS:</strong> The actual return when including all costs (including discounts)</li>
-                <li><strong>Impact:</strong> Meta/Google ROAS appears higher because it doesn't account for discount costs on new buyers</li>
-                <li><strong>Example:</strong> If Meta shows 2.0x ROAS but you're giving 20% discounts to new buyers (20% of traffic), your true ROAS might be closer to 1.92x</li>
-            </ul>
+        <!-- Input Parameters -->
+        <div class="section">
+            <div class="section-title">Input Parameters</div>
+            <table>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Annual GMV ($)</td>
+                    <td><input type="number" id="annual-gmv" value="1000000"></td>
+                </tr>
+                <tr>
+                    <td>Average Order Value ($)</td>
+                    <td><input type="number" id="aov" value="70"></td>
+                </tr>
+                <tr>
+                    <td>Annual Number of Transactions</td>
+                    <td><input type="number" id="annual-transactions" value="35000"></td>
+                </tr>
+                <tr>
+                    <td>Profit Margin (%)</td>
+                    <td><input type="number" id="profit-margin" value="15"></td>
+                </tr>
+                <tr>
+                    <td>Ad Spend ($)</td>
+                    <td><input type="number" id="ad-spend" value="50000"></td>
+                </tr>
+                <tr>
+                    <td>Retargeting Budget Allocation (%)</td>
+                    <td><input type="number" id="retargeting-budget" value="15"></td>
+                </tr>
+                <tr>
+                    <td>Retargeting CPA ($)</td>
+                    <td><input type="number" id="retargeting-cpa" value="75"></td>
+                </tr>
+                <tr>
+                    <td>Prospecting CPA ($)</td>
+                    <td><input type="number" id="prospecting-cpa" value="100"></td>
+                </tr>
+                <tr>
+                    <td>LTV ($)</td>
+                    <td><input type="number" id="ltv" value="200"></td>
+                </tr>
+                <tr>
+                    <td>Payments Profile Online (%)</td>
+                    <td><input type="number" id="payments-profile" value="100"></td>
+                </tr>
+                <tr>
+                    <td>Orders on Payments (%)</td>
+                    <td><input type="number" id="orders-payments" value="100"></td>
+                </tr>
+                <tr>
+                    <td>Current Conversion Rate (%)</td>
+                    <td><input type="number" id="conversion-rate" value="3"></td>
+                </tr>
+                <tr>
+                    <td>Shop Pay Usage (%)</td>
+                    <td><input type="number" id="shop-pay-usage" value="40"></td>
+                </tr>
+            </table>
         </div>
-    </div>
 
-    <div class="benchmarks">
-        <h3>📊 Industry Benchmarks</h3>
-        <p>Use these benchmarks to compare your performance against industry standards. Note that these are general ranges and actual values may vary based on specific business models and market conditions.</p>
-        
-        <table class="benchmark-table">
-            <thead>
+        <!-- Upgrade Costs -->
+        <div class="section">
+            <div class="section-title">Upgrade Costs</div>
+            <table>
                 <tr>
-                    <th>Industry</th>
-                    <th>
-                        Typical ROAS
-                        <span class="tooltip">ℹ️
-                            <span class="tooltiptext">Return on Ad Spend before accounting for discounts</span>
-                        </span>
-                    </th>
-                    <th>
-                        CAC
-                        <span class="tooltip">ℹ️
-                            <span class="tooltiptext">Customer Acquisition Cost</span>
-                        </span>
-                    </th>
-                    <th>
-                        Common Discounts
-                        <span class="tooltip">ℹ️
-                            <span class="tooltiptext">Typical discount offers for new customers</span>
-                        </span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Fashion/Apparel</td>
-                    <td>3.0x - 5.0x</td>
-                    <td>$40 - $80</td>
-                    <td>10% - 20%</td>
+                    <th>Feature</th>
+                    <th>Low Growth</th>
+                    <th>Medium Growth</th>
+                    <th>High Growth</th>
                 </tr>
                 <tr>
-                    <td>Beauty/Cosmetics</td>
-                    <td>3.5x - 6.0x</td>
-                    <td>$30 - $60</td>
-                    <td>15% - 25%</td>
+                    <td>Checkout Customization with API</td>
+                    <td><input type="number" id="checkout-custom-cost-low" value="125"></td>
+                    <td><input type="number" id="checkout-custom-cost-medium" value="378.75"></td>
+                    <td><input type="number" id="checkout-custom-cost-high" value="650.19"></td>
                 </tr>
                 <tr>
-                    <td>Electronics</td>
-                    <td>2.5x - 4.0x</td>
-                    <td>$80 - $150</td>
-                    <td>5% - 15%</td>
+                    <td>Checkout Upsell with 3P apps</td>
+                    <td><input type="number" id="checkout-upsell-cost-low" value="1531.25"></td>
+                    <td><input type="number" id="checkout-upsell-cost-medium" value="3062.50"></td>
+                    <td><input type="number" id="checkout-upsell-cost-high" value="6125.00"></td>
                 </tr>
                 <tr>
-                    <td>Home Goods</td>
-                    <td>3.0x - 5.5x</td>
-                    <td>$50 - $100</td>
-                    <td>10% - 20%</td>
+                    <td>Plus Support Help</td>
+                    <td><input type="number" id="plus-support-cost-low" value="16.13"></td>
+                    <td><input type="number" id="plus-support-cost-medium" value="70.95"></td>
+                    <td><input type="number" id="plus-support-cost-high" value="408.50"></td>
                 </tr>
                 <tr>
-                    <td>Food & Beverage</td>
-                    <td>4.0x - 7.0x</td>
-                    <td>$20 - $45</td>
-                    <td>10% - 30%</td>
+                    <td>Audiences</td>
+                    <td><input type="number" id="audiences-cost-low" value="68"></td>
+                    <td><input type="number" id="audiences-cost-medium" value="898"></td>
+                    <td><input type="number" id="audiences-cost-high" value="2746"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Feature Impact Tables -->
+        <div class="section">
+            <div class="section-title">Checkout Customization with API</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
                 </tr>
                 <tr>
-                    <td>Luxury Goods</td>
-                    <td>2.0x - 3.5x</td>
-                    <td>$150 - $300</td>
-                    <td>5% - 10%</td>
+                    <td>Conversion Rate Increase</td>
+                    <td id="checkout-custom-conv-increase">0%</td>
                 </tr>
                 <tr>
-                    <td>Health & Wellness</td>
-                    <td>3.5x - 5.5x</td>
-                    <td>$45 - $90</td>
-                    <td>15% - 25%</td>
+                    <td>New Conversion Rate</td>
+                    <td id="checkout-custom-new-conv">0%</td>
                 </tr>
-            </tbody>
-        </table>
-        
-        <p style="margin-top: 15px; font-size: 14px; color: #666;">
-            <strong>Note:</strong> These benchmarks are aggregated from various industry reports and may vary by:
-            <ul>
-                <li>Geographic region</li>
-                <li>Business size</li>
-                <li>Product price point</li>
-                <li>Marketing channel mix</li>
-                <li>Seasonality</li>
-            </ul>
-        </p>
+                <tr>
+                    <td>Additional Orders</td>
+                    <td id="checkout-custom-orders">0</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="checkout-custom-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="checkout-custom-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Checkout Upsell with 3P apps</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>AOV Increase</td>
+                    <td id="checkout-upsell-aov-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New AOV</td>
+                    <td id="checkout-upsell-new-aov">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="checkout-upsell-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="checkout-upsell-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Plus Support Help</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Conversion Rate Increase</td>
+                    <td id="plus-support-conv-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New Conversion Rate</td>
+                    <td id="plus-support-new-conv">0%</td>
+                </tr>
+                <tr>
+                    <td>Additional Orders</td>
+                    <td id="plus-support-orders">0</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="plus-support-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="plus-support-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Increased Retargeting with Audiences</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Conversion Rate Increase</td>
+                    <td id="audiences-conv-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New Conversion Rate</td>
+                    <td id="audiences-new-conv">0%</td>
+                </tr>
+                <tr>
+                    <td>Additional Orders</td>
+                    <td id="audiences-orders">0</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="audiences-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="audiences-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Increased Conversion with Shop Pay</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Conversion Rate Increase</td>
+                    <td id="shop-pay-conv-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New Conversion Rate</td>
+                    <td id="shop-pay-new-conv">0%</td>
+                </tr>
+                <tr>
+                    <td>Additional Orders</td>
+                    <td id="shop-pay-orders">0</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="shop-pay-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="shop-pay-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Increased AOV with Shop Pay</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>AOV Increase</td>
+                    <td id="shop-pay-aov-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New AOV</td>
+                    <td id="shop-pay-new-aov">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="shop-pay-aov-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="shop-pay-aov-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Increased Conversion without Shop Pay</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Conversion Rate Increase</td>
+                    <td id="non-shop-pay-conv-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New Conversion Rate</td>
+                    <td id="non-shop-pay-new-conv">0%</td>
+                </tr>
+                <tr>
+                    <td>Additional Orders</td>
+                    <td id="non-shop-pay-orders">0</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="non-shop-pay-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="non-shop-pay-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <script>
-        // Update range input displays
-        document.getElementById('newBuyerShare').addEventListener('input', function(e) {
-            document.getElementById('newBuyerShareValue').textContent = e.target.value + '%';
-        });
-        document.getElementById('discountPercentage').addEventListener('input', function(e) {
-            document.getElementById('discountPercentageValue').textContent = e.target.value + '%';
+        // Add event listeners to all inputs
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('change', calculateAll);
         });
 
-        function calculateROAS() {
+        function calculateAll() {
             // Get input values
-            const revenue = parseFloat(document.getElementById('revenue').value);
-            const adSpend = parseFloat(document.getElementById('adSpend').value);
-            const newBuyerShare = parseFloat(document.getElementById('newBuyerShare').value);
-            const discountPercentage = parseFloat(document.getElementById('discountPercentage').value);
+            const annualGMV = parseFloat(document.getElementById('annual-gmv').value);
+            const aov = parseFloat(document.getElementById('aov').value);
+            const annualTransactions = parseInt(document.getElementById('annual-transactions').value);
+            const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100;
+            const currentConversionRate = parseFloat(document.getElementById('conversion-rate').value) / 100;
 
-            // Calculate new buyer ad spend and discount
-            const newBuyerAdSpend = adSpend * (newBuyerShare / 100);
-            const discountAmount = newBuyerAdSpend * (discountPercentage / 100);
-            const totalCost = adSpend + discountAmount;
+            // Calculate for each feature and scenario
+            calculateFeature('checkout-custom', {
+                low: { convIncrease: 0.01, cost: parseFloat(document.getElementById('checkout-custom-cost-low').value) },
+                medium: { convIncrease: 0.03, cost: parseFloat(document.getElementById('checkout-custom-cost-medium').value) },
+                high: { convIncrease: 0.05, cost: parseFloat(document.getElementById('checkout-custom-cost-high').value) }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
 
-            // Calculate ROAS metrics
-            const reportedRoas = revenue / adSpend;
-            const trueRoas = revenue / totalCost;
-            const roasOverstatement = ((reportedRoas - trueRoas) / trueRoas * 100).toFixed(1);
+            calculateFeature('checkout-upsell', {
+                low: { aovIncrease: 0.05, cost: parseFloat(document.getElementById('checkout-upsell-cost-low').value) },
+                medium: { aovIncrease: 0.10, cost: parseFloat(document.getElementById('checkout-upsell-cost-medium').value) },
+                high: { aovIncrease: 0.20, cost: parseFloat(document.getElementById('checkout-upsell-cost-high').value) }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
 
-            // Update display
-            document.getElementById('reportedRoas').textContent = reportedRoas.toFixed(2) + 'x';
-            document.getElementById('trueRoas').textContent = trueRoas.toFixed(2) + 'x';
-            document.getElementById('costBreakdown').innerHTML = `
-                Base Ad Spend: $${adSpend.toFixed(2)}<br>
-                <span class="highlight">Hidden Discount Cost: $${discountAmount.toFixed(2)} (${discountPercentage}% on ${newBuyerShare}% of spend)</span><br>
-                Actual Total Cost: $${totalCost.toFixed(2)}<br>
-                <br>
-                <strong>Meta/Google overstates ROAS by ${roasOverstatement}%</strong>
-            `;
+            calculateFeature('plus-support', {
+                low: { convIncrease: 0.005, cost: parseFloat(document.getElementById('plus-support-cost-low').value) },
+                medium: { convIncrease: 0.01, cost: parseFloat(document.getElementById('plus-support-cost-medium').value) },
+                high: { convIncrease: 0.015, cost: parseFloat(document.getElementById('plus-support-cost-high').value) }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+            calculateFeature('audiences', {
+                low: { convIncrease: 0.02, cost: parseFloat(document.getElementById('audiences-cost-low').value) },
+                medium: { convIncrease: 0.04, cost: parseFloat(document.getElementById('audiences-cost-medium').value) },
+                high: { convIncrease: 0.06, cost: parseFloat(document.getElementById('audiences-cost-high').value) }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+            calculateFeature('shop-pay-conv', {
+                low: { convIncrease: 0.03, cost: 0 },
+                medium: { convIncrease: 0.05, cost: 0 },
+                high: { convIncrease: 0.07, cost: 0 }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+            calculateFeature('shop-pay-aov', {
+                low: { aovIncrease: 0.05, cost: 0 },
+                medium: { aovIncrease: 0.10, cost: 0 },
+                high: { aovIncrease: 0.20, cost: 0 }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+            calculateFeature('non-shop-pay', {
+                low: { convIncrease: 0.01, cost: 0 },
+                medium: { convIncrease: 0.02, cost: 0 },
+                high: { convIncrease: 0.03, cost: 0 }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
         }
 
-        // Calculate initial values
-        calculateROAS();
+        function calculateFeature(prefix, scenarios, annualTransactions, aov, profitMargin, currentConversionRate) {
+            // Calculate for each scenario
+            Object.entries(scenarios).forEach(([scenario, data]) => {
+                let revenueImpact, marginImpact;
+                
+                if (data.convIncrease) {
+                    // Conversion rate based calculation
+                    const newConversionRate = currentConversionRate * (1 + data.convIncrease);
+                    const additionalOrders = annualTransactions * data.convIncrease;
+                    revenueImpact = additionalOrders * aov;
+                    marginImpact = revenueImpact * profitMargin;
 
-        // View Toggle Functionality
-        const viewIcons = document.querySelectorAll('.view-icon');
-        const body = document.body;
+                    // Update feature-specific table
+                    if (scenario === 'medium') {
+                        document.getElementById(`${prefix}-conv-increase`).textContent = `${(data.convIncrease * 100).toFixed(1)}%`;
+                        document.getElementById(`${prefix}-new-conv`).textContent = `${(newConversionRate * 100).toFixed(2)}%`;
+                        document.getElementById(`${prefix}-orders`).textContent = additionalOrders.toLocaleString();
+                        document.getElementById(`${prefix}-revenue`).textContent = `$${revenueImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        document.getElementById(`${prefix}-margin`).textContent = `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                    }
+                } else if (data.aovIncrease) {
+                    // AOV based calculation
+                    const newAov = aov * (1 + data.aovIncrease);
+                    revenueImpact = annualTransactions * (newAov - aov);
+                    marginImpact = revenueImpact * profitMargin;
 
-        function updateView() {
-            if (viewIcons[0].classList.contains('active')) {
-                body.classList.remove('force-mobile');
-                body.classList.add('force-desktop');
-            } else {
-                body.classList.remove('force-desktop');
-                body.classList.add('force-mobile');
-            }
-        }
+                    // Update feature-specific table
+                    if (scenario === 'medium') {
+                        document.getElementById(`${prefix}-aov-increase`).textContent = `${(data.aovIncrease * 100).toFixed(1)}%`;
+                        document.getElementById(`${prefix}-new-aov`).textContent = `$${newAov.toFixed(2)}`;
+                        document.getElementById(`${prefix}-revenue`).textContent = `$${revenueImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        document.getElementById(`${prefix}-margin`).textContent = `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                    }
+                }
 
-        viewIcons.forEach(icon => {
-            icon.addEventListener('click', () => {
-                viewIcons.forEach(i => i.classList.remove('active'));
-                icon.classList.add('active');
-                updateView();
+                // Update summary table
+                document.getElementById(`${prefix}-${scenario}`).textContent = 
+                    `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             });
-        });
-        
-        // Set initial view based on screen width
-        viewIcons[0].classList.add('active');
-        updateView();
+        }
+
+        // Initial calculation
+        calculateAll();
     </script>
 </body>
 </html> 
