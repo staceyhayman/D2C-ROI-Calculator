@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant ROI Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input[type="number"] {
+            width: 100px;
+            padding: 5px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Merchant ROI Calculator</h1>
+        
+        <!-- Growth from Upgrading Table -->
+        <div class="section">
+            <div class="section-title">Growth from Upgrading</div>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Low Growth</th>
+                    <th>Medium Growth</th>
+                    <th>High Growth</th>
+                </tr>
+                <tr>
+                    <td>Checkout Customization with API</td>
+                    <td id="checkout-custom-low">$0.00</td>
+                    <td id="checkout-custom-medium">$0.00</td>
+                    <td id="checkout-custom-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Checkout Upsell with 3P apps</td>
+                    <td id="checkout-upsell-low">$0.00</td>
+                    <td id="checkout-upsell-medium">$0.00</td>
+                    <td id="checkout-upsell-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Plus Support Help</td>
+                    <td id="plus-support-low">$0.00</td>
+                    <td id="plus-support-medium">$0.00</td>
+                    <td id="plus-support-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Increased Retargeting with Audiences</td>
+                    <td id="audiences-low">$0.00</td>
+                    <td id="audiences-medium">$0.00</td>
+                    <td id="audiences-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Increased Conversion with Shop Pay</td>
+                    <td id="shop-pay-conv-low">$0.00</td>
+                    <td id="shop-pay-conv-medium">$0.00</td>
+                    <td id="shop-pay-conv-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Increased AOV with Shop Pay</td>
+                    <td id="shop-pay-aov-low">$0.00</td>
+                    <td id="shop-pay-aov-medium">$0.00</td>
+                    <td id="shop-pay-aov-high">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Increased Conversion without Shop Pay</td>
+                    <td id="non-shop-pay-low">$0.00</td>
+                    <td id="non-shop-pay-medium">$0.00</td>
+                    <td id="non-shop-pay-high">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Input Parameters -->
+        <div class="section">
+            <div class="section-title">Input Parameters</div>
+            <table>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Annual GMV ($)</td>
+                    <td><input type="number" id="annual-gmv" value="1000000"></td>
+                </tr>
+                <tr>
+                    <td>Average Order Value ($)</td>
+                    <td><input type="number" id="aov" value="70"></td>
+                </tr>
+                <tr>
+                    <td>Annual Number of Transactions</td>
+                    <td><input type="number" id="annual-transactions" value="35000"></td>
+                </tr>
+                <tr>
+                    <td>Profit Margin (%)</td>
+                    <td><input type="number" id="profit-margin" value="15"></td>
+                </tr>
+                <tr>
+                    <td>Ad Spend ($)</td>
+                    <td><input type="number" id="ad-spend" value="50000"></td>
+                </tr>
+                <tr>
+                    <td>Retargeting Budget Allocation (%)</td>
+                    <td><input type="number" id="retargeting-budget" value="15"></td>
+                </tr>
+                <tr>
+                    <td>Retargeting CPA ($)</td>
+                    <td><input type="number" id="retargeting-cpa" value="75"></td>
+                </tr>
+                <tr>
+                    <td>Prospecting CPA ($)</td>
+                    <td><input type="number" id="prospecting-cpa" value="100"></td>
+                </tr>
+                <tr>
+                    <td>LTV ($)</td>
+                    <td><input type="number" id="ltv" value="200"></td>
+                </tr>
+                <tr>
+                    <td>Payments Profile Online (%)</td>
+                    <td><input type="number" id="payments-profile" value="100"></td>
+                </tr>
+                <tr>
+                    <td>Orders on Payments (%)</td>
+                    <td><input type="number" id="orders-payments" value="100"></td>
+                </tr>
+                <tr>
+                    <td>Current Conversion Rate (%)</td>
+                    <td><input type="number" id="conversion-rate" value="3"></td>
+                </tr>
+                <tr>
+                    <td>Shop Pay Usage (%)</td>
+                    <td><input type="number" id="shop-pay-usage" value="40"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Upgrade Costs -->
+        <div class="section">
+            <div class="section-title">Upgrade Costs</div>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Low Growth</th>
+                    <th>Medium Growth</th>
+                    <th>High Growth</th>
+                </tr>
+                <tr>
+                    <td>Checkout Customization with API</td>
+                    <td><input type="number" id="checkout-custom-cost-low" value="125"></td>
+                    <td><input type="number" id="checkout-custom-cost-medium" value="378.75"></td>
+                    <td><input type="number" id="checkout-custom-cost-high" value="650.19"></td>
+                </tr>
+                <tr>
+                    <td>Checkout Upsell with 3P apps</td>
+                    <td><input type="number" id="checkout-upsell-cost-low" value="1531.25"></td>
+                    <td><input type="number" id="checkout-upsell-cost-medium" value="3062.50"></td>
+                    <td><input type="number" id="checkout-upsell-cost-high" value="6125.00"></td>
+                </tr>
+                <tr>
+                    <td>Plus Support Help</td>
+                    <td><input type="number" id="plus-support-cost-low" value="16.13"></td>
+                    <td><input type="number" id="plus-support-cost-medium" value="70.95"></td>
+                    <td><input type="number" id="plus-support-cost-high" value="408.50"></td>
+                </tr>
+                <tr>
+                    <td>Audiences</td>
+                    <td><input type="number" id="audiences-cost-low" value="68"></td>
+                    <td><input type="number" id="audiences-cost-medium" value="898"></td>
+                    <td><input type="number" id="audiences-cost-high" value="2746"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Feature Impact Tables -->
+        <div class="section">
+            <div class="section-title">Checkout Customization with API</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Conversion Rate Increase</td>
+                    <td id="checkout-custom-conv-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New Conversion Rate</td>
+                    <td id="checkout-custom-new-conv">0%</td>
+                </tr>
+                <tr>
+                    <td>Additional Orders</td>
+                    <td id="checkout-custom-orders">0</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="checkout-custom-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="checkout-custom-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Checkout Upsell with 3P apps</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>AOV Increase</td>
+                    <td id="checkout-upsell-aov-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New AOV</td>
+                    <td id="checkout-upsell-new-aov">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="checkout-upsell-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="checkout-upsell-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Plus Support Help</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Conversion Rate Increase</td>
+                    <td id="plus-support-conv-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New Conversion Rate</td>
+                    <td id="plus-support-new-conv">0%</td>
+                </tr>
+                <tr>
+                    <td>Additional Orders</td>
+                    <td id="plus-support-orders">0</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="plus-support-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="plus-support-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Increased Retargeting with Audiences</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Conversion Rate Increase</td>
+                    <td id="audiences-conv-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New Conversion Rate</td>
+                    <td id="audiences-new-conv">0%</td>
+                </tr>
+                <tr>
+                    <td>Additional Orders</td>
+                    <td id="audiences-orders">0</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="audiences-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="audiences-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Increased Conversion with Shop Pay</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Conversion Rate Increase</td>
+                    <td id="shop-pay-conv-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New Conversion Rate</td>
+                    <td id="shop-pay-new-conv">0%</td>
+                </tr>
+                <tr>
+                    <td>Additional Orders</td>
+                    <td id="shop-pay-orders">0</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="shop-pay-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="shop-pay-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Increased AOV with Shop Pay</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>AOV Increase</td>
+                    <td id="shop-pay-aov-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New AOV</td>
+                    <td id="shop-pay-new-aov">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="shop-pay-aov-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="shop-pay-aov-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Increased Conversion without Shop Pay</div>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Conversion Rate Increase</td>
+                    <td id="non-shop-pay-conv-increase">0%</td>
+                </tr>
+                <tr>
+                    <td>New Conversion Rate</td>
+                    <td id="non-shop-pay-new-conv">0%</td>
+                </tr>
+                <tr>
+                    <td>Additional Orders</td>
+                    <td id="non-shop-pay-orders">0</td>
+                </tr>
+                <tr>
+                    <td>Revenue Impact</td>
+                    <td id="non-shop-pay-revenue">$0.00</td>
+                </tr>
+                <tr>
+                    <td>Margin Impact</td>
+                    <td id="non-shop-pay-margin">$0.00</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Add event listeners to all inputs
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('change', calculateAll);
+        });
+
+        function calculateAll() {
+            // Get input values
+            const annualGMV = parseFloat(document.getElementById('annual-gmv').value);
+            const aov = parseFloat(document.getElementById('aov').value);
+            const annualTransactions = parseInt(document.getElementById('annual-transactions').value);
+            const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100;
+            const currentConversionRate = parseFloat(document.getElementById('conversion-rate').value) / 100;
+
+            // Calculate for each feature and scenario
+            calculateFeature('checkout-custom', {
+                low: { convIncrease: 0.01, cost: parseFloat(document.getElementById('checkout-custom-cost-low').value) },
+                medium: { convIncrease: 0.03, cost: parseFloat(document.getElementById('checkout-custom-cost-medium').value) },
+                high: { convIncrease: 0.05, cost: parseFloat(document.getElementById('checkout-custom-cost-high').value) }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+            calculateFeature('checkout-upsell', {
+                low: { aovIncrease: 0.05, cost: parseFloat(document.getElementById('checkout-upsell-cost-low').value) },
+                medium: { aovIncrease: 0.10, cost: parseFloat(document.getElementById('checkout-upsell-cost-medium').value) },
+                high: { aovIncrease: 0.20, cost: parseFloat(document.getElementById('checkout-upsell-cost-high').value) }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+            calculateFeature('plus-support', {
+                low: { convIncrease: 0.005, cost: parseFloat(document.getElementById('plus-support-cost-low').value) },
+                medium: { convIncrease: 0.01, cost: parseFloat(document.getElementById('plus-support-cost-medium').value) },
+                high: { convIncrease: 0.015, cost: parseFloat(document.getElementById('plus-support-cost-high').value) }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+            calculateFeature('audiences', {
+                low: { convIncrease: 0.02, cost: parseFloat(document.getElementById('audiences-cost-low').value) },
+                medium: { convIncrease: 0.04, cost: parseFloat(document.getElementById('audiences-cost-medium').value) },
+                high: { convIncrease: 0.06, cost: parseFloat(document.getElementById('audiences-cost-high').value) }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+            calculateFeature('shop-pay-conv', {
+                low: { convIncrease: 0.03, cost: 0 },
+                medium: { convIncrease: 0.05, cost: 0 },
+                high: { convIncrease: 0.07, cost: 0 }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+            calculateFeature('shop-pay-aov', {
+                low: { aovIncrease: 0.05, cost: 0 },
+                medium: { aovIncrease: 0.10, cost: 0 },
+                high: { aovIncrease: 0.20, cost: 0 }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+            calculateFeature('non-shop-pay', {
+                low: { convIncrease: 0.01, cost: 0 },
+                medium: { convIncrease: 0.02, cost: 0 },
+                high: { convIncrease: 0.03, cost: 0 }
+            }, annualTransactions, aov, profitMargin, currentConversionRate);
+        }
+
+        function calculateFeature(prefix, scenarios, annualTransactions, aov, profitMargin, currentConversionRate) {
+            // Calculate for each scenario
+            Object.entries(scenarios).forEach(([scenario, data]) => {
+                let revenueImpact, marginImpact;
+                
+                if (data.convIncrease) {
+                    // Conversion rate based calculation
+                    const newConversionRate = currentConversionRate * (1 + data.convIncrease);
+                    const additionalOrders = annualTransactions * data.convIncrease;
+                    revenueImpact = additionalOrders * aov;
+                    marginImpact = revenueImpact * profitMargin;
+
+                    // Update feature-specific table
+                    if (scenario === 'medium') {
+                        document.getElementById(`${prefix}-conv-increase`).textContent = `${(data.convIncrease * 100).toFixed(1)}%`;
+                        document.getElementById(`${prefix}-new-conv`).textContent = `${(newConversionRate * 100).toFixed(2)}%`;
+                        document.getElementById(`${prefix}-orders`).textContent = additionalOrders.toLocaleString();
+                        document.getElementById(`${prefix}-revenue`).textContent = `$${revenueImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        document.getElementById(`${prefix}-margin`).textContent = `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                    }
+                } else if (data.aovIncrease) {
+                    // AOV based calculation
+                    const newAov = aov * (1 + data.aovIncrease);
+                    revenueImpact = annualTransactions * (newAov - aov);
+                    marginImpact = revenueImpact * profitMargin;
+
+                    // Update feature-specific table
+                    if (scenario === 'medium') {
+                        document.getElementById(`${prefix}-aov-increase`).textContent = `${(data.aovIncrease * 100).toFixed(1)}%`;
+                        document.getElementById(`${prefix}-new-aov`).textContent = `$${newAov.toFixed(2)}`;
+                        document.getElementById(`${prefix}-revenue`).textContent = `$${revenueImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        document.getElementById(`${prefix}-margin`).textContent = `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                    }
+                }
+
+                // Update summary table
+                document.getElementById(`${prefix}-${scenario}`).textContent = 
+                    `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            });
+        }
+
+        // Initial calculation
+        calculateAll();
+    </script>
+</body>
+</html> 
