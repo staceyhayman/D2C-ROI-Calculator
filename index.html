@@ -92,23 +92,15 @@
                 <div class="section-title">Cost Inputs</div>
                 <table>
                     <tr>
-                        <td><b>Current Plan</b></td>
-                        <td><b>Advanced</b></td>
-                    </tr>
-                    <tr>
-                        <td><input type="number" id="current-plan" value=""></td>
-                        <td>Advanced</td>
-                    </tr>
-                    <tr>
-                        <td>Annual GMV ($)</td>
+                        <td>Merchant Annual GMV ($)</td>
                         <td><input type="number" id="annual-gmv" value="1000000"></td>
                     </tr>
                     <tr>
-                        <td>Average Order Value ($)</td>
+                        <td>Average Order Value (AOV) ($)</td>
                         <td><input type="number" id="aov" value="70"></td>
                     </tr>
                     <tr>
-                        <td>Annual Number of Transactions</td>
+                        <td>Average # of Transactions</td>
                         <td><input type="number" id="annual-transactions" value="35000"></td>
                     </tr>
                     <tr>
@@ -138,12 +130,12 @@
                         <td><input type="number" id="ltv" value="200"></td>
                     </tr>
                     <tr>
-                        <td>Payments Profile Online (%)</td>
+                        <td>Payments Profile (% Online)</td>
                         <td><input type="range" id="payments-profile" min="0" max="100" value="100" oninput="document.getElementById('payments-profile-value').textContent = this.value + '%'">
                         <span id="payments-profile-value">100%</span></td>
                     </tr>
                     <tr>
-                        <td>Orders on Payments (%)</td>
+                        <td>% of orders being processed on Shopify Payments</td>
                         <td><input type="range" id="orders-payments" min="0" max="100" value="100" oninput="document.getElementById('orders-payments-value').textContent = this.value + '%'">
                         <span id="orders-payments-value">100%</span></td>
                     </tr>
