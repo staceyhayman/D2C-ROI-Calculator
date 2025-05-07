@@ -159,49 +159,41 @@
                 <table>
                     <tr>
                         <th>Feature</th>
-                        <th>Low Growth</th>
                         <th>Medium Growth</th>
                         <th>High Growth</th>
                     </tr>
                     <tr>
                         <td>Checkout Customization with API</td>
-                        <td id="checkout-custom-low">$0.00</td>
                         <td id="checkout-custom-medium">$0.00</td>
                         <td id="checkout-custom-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Checkout Upsell with 3P apps</td>
-                        <td id="checkout-upsell-low">$0.00</td>
                         <td id="checkout-upsell-medium">$0.00</td>
                         <td id="checkout-upsell-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Plus Support Help</td>
-                        <td id="plus-support-low">$0.00</td>
                         <td id="plus-support-medium">$0.00</td>
                         <td id="plus-support-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Increased Retargeting with Audiences</td>
-                        <td id="audiences-low">$0.00</td>
                         <td id="audiences-medium">$0.00</td>
                         <td id="audiences-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Increased Conversion with Shop Pay</td>
-                        <td id="shop-pay-conv-low">$0.00</td>
                         <td id="shop-pay-conv-medium">$0.00</td>
                         <td id="shop-pay-conv-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Increased AOV with Shop Pay</td>
-                        <td id="shop-pay-aov-low">$0.00</td>
                         <td id="shop-pay-aov-medium">$0.00</td>
                         <td id="shop-pay-aov-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Increased Conversion without Shop Pay</td>
-                        <td id="non-shop-pay-low">$0.00</td>
                         <td id="non-shop-pay-medium">$0.00</td>
                         <td id="non-shop-pay-high">$0.00</td>
                     </tr>
@@ -215,31 +207,26 @@
             <table>
                 <tr>
                     <th>Feature</th>
-                    <th>Low Growth</th>
                     <th>Medium Growth</th>
                     <th>High Growth</th>
                 </tr>
                 <tr>
                     <td>Checkout Customization with API</td>
-                    <td><input type="number" id="checkout-custom-cost-low" value="125"></td>
                     <td><input type="number" id="checkout-custom-cost-medium" value="378.75"></td>
                     <td><input type="number" id="checkout-custom-cost-high" value="650.19"></td>
                 </tr>
                 <tr>
                     <td>Checkout Upsell with 3P apps</td>
-                    <td><input type="number" id="checkout-upsell-cost-low" value="1531.25"></td>
                     <td><input type="number" id="checkout-upsell-cost-medium" value="3062.50"></td>
                     <td><input type="number" id="checkout-upsell-cost-high" value="6125.00"></td>
                 </tr>
                 <tr>
                     <td>Plus Support Help</td>
-                    <td><input type="number" id="plus-support-cost-low" value="16.13"></td>
                     <td><input type="number" id="plus-support-cost-medium" value="70.95"></td>
                     <td><input type="number" id="plus-support-cost-high" value="408.50"></td>
                 </tr>
                 <tr>
                     <td>Audiences</td>
-                    <td><input type="number" id="audiences-cost-low" value="68"></td>
                     <td><input type="number" id="audiences-cost-medium" value="898"></td>
                     <td><input type="number" id="audiences-cost-high" value="2746"></td>
                 </tr>
@@ -470,43 +457,36 @@
 
             // Calculate for each feature and scenario
             calculateFeature('checkout-custom', {
-                low: { convIncrease: 0.01, cost: parseFloat(document.getElementById('checkout-custom-cost-low').value) },
                 medium: { convIncrease: 0.03, cost: parseFloat(document.getElementById('checkout-custom-cost-medium').value) },
                 high: { convIncrease: 0.05, cost: parseFloat(document.getElementById('checkout-custom-cost-high').value) }
             }, annualTransactions, aov, profitMargin, currentConversionRate);
 
             calculateFeature('checkout-upsell', {
-                low: { aovIncrease: 0.05, cost: parseFloat(document.getElementById('checkout-upsell-cost-low').value) },
                 medium: { aovIncrease: 0.10, cost: parseFloat(document.getElementById('checkout-upsell-cost-medium').value) },
                 high: { aovIncrease: 0.20, cost: parseFloat(document.getElementById('checkout-upsell-cost-high').value) }
             }, annualTransactions, aov, profitMargin, currentConversionRate);
 
             calculateFeature('plus-support', {
-                low: { convIncrease: 0.005, cost: parseFloat(document.getElementById('plus-support-cost-low').value) },
                 medium: { convIncrease: 0.01, cost: parseFloat(document.getElementById('plus-support-cost-medium').value) },
                 high: { convIncrease: 0.015, cost: parseFloat(document.getElementById('plus-support-cost-high').value) }
             }, annualTransactions, aov, profitMargin, currentConversionRate);
 
             calculateFeature('audiences', {
-                low: { convIncrease: 0.02, cost: parseFloat(document.getElementById('audiences-cost-low').value) },
                 medium: { convIncrease: 0.04, cost: parseFloat(document.getElementById('audiences-cost-medium').value) },
                 high: { convIncrease: 0.06, cost: parseFloat(document.getElementById('audiences-cost-high').value) }
             }, annualTransactions, aov, profitMargin, currentConversionRate);
 
             calculateFeature('shop-pay-conv', {
-                low: { convIncrease: 0.03, cost: 0 },
                 medium: { convIncrease: 0.05, cost: 0 },
                 high: { convIncrease: 0.07, cost: 0 }
             }, annualTransactions, aov, profitMargin, currentConversionRate);
 
             calculateFeature('shop-pay-aov', {
-                low: { aovIncrease: 0.05, cost: 0 },
                 medium: { aovIncrease: 0.10, cost: 0 },
                 high: { aovIncrease: 0.20, cost: 0 }
             }, annualTransactions, aov, profitMargin, currentConversionRate);
 
             calculateFeature('non-shop-pay', {
-                low: { convIncrease: 0.01, cost: 0 },
                 medium: { convIncrease: 0.02, cost: 0 },
                 high: { convIncrease: 0.03, cost: 0 }
             }, annualTransactions, aov, profitMargin, currentConversionRate);
