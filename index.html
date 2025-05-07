@@ -92,50 +92,50 @@
                 <div class="section-title">Cost Inputs</div>
                 <table>
                     <tr>
-                        <td>Merchant Annual GMV ($)</td>
-                        <td><input type="number" id="annual-gmv" value="1000000"></td>
+                        <td>Merchant Annual GMV</td>
+                        <td><span style="font-weight:bold">$</span><input type="number" id="annual-gmv" value="1000000" style="width:110px; margin-left:4px;"></td>
                     </tr>
                     <tr>
-                        <td>Average Order Value (AOV) ($)</td>
-                        <td><input type="number" id="aov" value="70"></td>
+                        <td>Average Order Value (AOV)</td>
+                        <td><span style="font-weight:bold">$</span><input type="number" id="aov" value="70" style="width:110px; margin-left:4px;"></td>
                     </tr>
                     <tr>
                         <td>Average # of Transactions</td>
                         <td><input type="number" id="annual-transactions" value="35000"></td>
                     </tr>
                     <tr>
-                        <td>Profit Margin (%)</td>
+                        <td>Profit Margin</td>
                         <td><input type="range" id="profit-margin" min="0" max="100" value="15" oninput="document.getElementById('profit-margin-value').textContent = this.value + '%'">
                         <span id="profit-margin-value">15%</span></td>
                     </tr>
                     <tr>
-                        <td>Ad Spend ($)</td>
-                        <td><input type="number" id="ad-spend" value="50000"></td>
+                        <td>Ad Spend</td>
+                        <td><span style="font-weight:bold">$</span><input type="number" id="ad-spend" value="50000" style="width:110px; margin-left:4px;"></td>
                     </tr>
                     <tr>
-                        <td>Retargeting Budget Allocation (%)</td>
+                        <td>Retargeting Budget Allocation</td>
                         <td><input type="range" id="retargeting-budget" min="0" max="100" value="15" oninput="document.getElementById('retargeting-budget-value').textContent = this.value + '%'">
                         <span id="retargeting-budget-value">15%</span></td>
                     </tr>
                     <tr>
-                        <td>Retargeting CPA ($)</td>
-                        <td><input type="number" id="retargeting-cpa" value="75"></td>
+                        <td>Retargeting CPA</td>
+                        <td><span style="font-weight:bold">$</span><input type="number" id="retargeting-cpa" value="75" style="width:110px; margin-left:4px;"></td>
                     </tr>
                     <tr>
-                        <td>Prospecting CPA ($)</td>
-                        <td><input type="number" id="prospecting-cpa" value="100"></td>
+                        <td>Prospecting CPA</td>
+                        <td><span style="font-weight:bold">$</span><input type="number" id="prospecting-cpa" value="100" style="width:110px; margin-left:4px;"></td>
                     </tr>
                     <tr>
-                        <td>LTV ($)</td>
-                        <td><input type="number" id="ltv" value="200"></td>
+                        <td>LTV</td>
+                        <td><span style="font-weight:bold">$</span><input type="number" id="ltv" value="200" style="width:110px; margin-left:4px;"></td>
                     </tr>
                     <tr>
-                        <td>Payments Profile (% Online)</td>
+                        <td>Payments Profile Online</td>
                         <td><input type="range" id="payments-profile" min="0" max="100" value="100" oninput="document.getElementById('payments-profile-value').textContent = this.value + '%'">
                         <span id="payments-profile-value">100%</span></td>
                     </tr>
                     <tr>
-                        <td>% of orders being processed on Shopify Payments</td>
+                        <td>Orders processed on Shopify Payments</td>
                         <td><input type="range" id="orders-payments" min="0" max="100" value="100" oninput="document.getElementById('orders-payments-value').textContent = this.value + '%'">
                         <span id="orders-payments-value">100%</span></td>
                     </tr>
