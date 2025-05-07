@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merchant ROI Calculator</title>
+    <title>Accleration D2C ROI Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -84,16 +84,20 @@
 </head>
 <body>
     <div class="container">
-        <h1>Merchant ROI Calculator</h1>
+        <h1>Accleration D2C ROI Calculator</h1>
         
         <div class="input-section">
-            <!-- Input Parameters -->
+            <!-- Cost Inputs -->
             <div class="section">
-                <div class="section-title">Input Parameters</div>
+                <div class="section-title">Cost Inputs</div>
                 <table>
                     <tr>
-                        <th>Parameter</th>
-                        <th>Value</th>
+                        <td><b>Current Plan</b></td>
+                        <td><b>Advanced</b></td>
+                    </tr>
+                    <tr>
+                        <td><input type="number" id="current-plan" value=""></td>
+                        <td>Advanced</td>
                     </tr>
                     <tr>
                         <td>Annual GMV ($)</td>
@@ -109,7 +113,8 @@
                     </tr>
                     <tr>
                         <td>Profit Margin (%)</td>
-                        <td><input type="number" id="profit-margin" value="15"></td>
+                        <td><input type="range" id="profit-margin" min="0" max="100" value="15" oninput="document.getElementById('profit-margin-value').textContent = this.value + '%'">
+                        <span id="profit-margin-value">15%</span></td>
                     </tr>
                     <tr>
                         <td>Ad Spend ($)</td>
@@ -117,7 +122,8 @@
                     </tr>
                     <tr>
                         <td>Retargeting Budget Allocation (%)</td>
-                        <td><input type="number" id="retargeting-budget" value="15"></td>
+                        <td><input type="range" id="retargeting-budget" min="0" max="100" value="15" oninput="document.getElementById('retargeting-budget-value').textContent = this.value + '%'">
+                        <span id="retargeting-budget-value">15%</span></td>
                     </tr>
                     <tr>
                         <td>Retargeting CPA ($)</td>
@@ -133,21 +139,26 @@
                     </tr>
                     <tr>
                         <td>Payments Profile Online (%)</td>
-                        <td><input type="number" id="payments-profile" value="100"></td>
+                        <td><input type="range" id="payments-profile" min="0" max="100" value="100" oninput="document.getElementById('payments-profile-value').textContent = this.value + '%'">
+                        <span id="payments-profile-value">100%</span></td>
                     </tr>
                     <tr>
                         <td>Orders on Payments (%)</td>
-                        <td><input type="number" id="orders-payments" value="100"></td>
+                        <td><input type="range" id="orders-payments" min="0" max="100" value="100" oninput="document.getElementById('orders-payments-value').textContent = this.value + '%'">
+                        <span id="orders-payments-value">100%</span></td>
                     </tr>
                     <tr>
                         <td>Current Conversion Rate (%)</td>
-                        <td><input type="number" id="conversion-rate" value="3"></td>
+                        <td><input type="range" id="conversion-rate" min="0" max="100" value="3" oninput="document.getElementById('conversion-rate-value').textContent = this.value + '%'">
+                        <span id="conversion-rate-value">3%</span></td>
                     </tr>
                     <tr>
                         <td>Shop Pay Usage (%)</td>
-                        <td><input type="number" id="shop-pay-usage" value="40"></td>
+                        <td><input type="range" id="shop-pay-usage" min="0" max="100" value="40" oninput="document.getElementById('shop-pay-usage-value').textContent = this.value + '%'">
+                        <span id="shop-pay-usage-value">40%</span></td>
                     </tr>
                 </table>
+                <button id="calculate-btn" style="margin-top: 15px; padding: 10px 20px; font-size: 1em;">Calculate</button>
             </div>
 
             <!-- Growth from Upgrading Table -->
@@ -448,11 +459,14 @@
     </div>
 
     <script>
-        // Add event listeners to all inputs
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('change', calculateAll);
-            input.addEventListener('input', calculateAll);
+        // Only add listeners to sliders for live value update
+        document.querySelectorAll('input[type="range"]').forEach(input => {
+            input.addEventListener('input', function() {
+                // update value display only
+            });
         });
+        // Calculate button triggers calculation
+        document.getElementById('calculate-btn').addEventListener('click', calculateAll);
 
         function calculateAll() {
             // Get input values
