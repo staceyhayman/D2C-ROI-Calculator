@@ -634,23 +634,23 @@
             function updateUpsellTable() {
                 try {
                     const aov = parseFloat(document.getElementById('aov').value) || 0;
-                    const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100 || 0;
                     const annualTransactions = parseFloat(document.getElementById('annual-transactions').value) || 0;
+                    const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100 || 0;
                     // AOV increase scenarios
                     const lowPct = 0.05, medPct = 0.10, highPct = 0.20;
-                    // Calculate new AOVs
-                    const aovLow = aov * (1 + lowPct);
-                    const aovMed = aov * (1 + medPct);
-                    const aovHigh = aov * (1 + highPct);
-                    // Calculate gross revenue increases
-                    const grossLow = (aovLow - aov) * annualTransactions;
-                    const grossMed = (aovMed - aov) * annualTransactions;
-                    const grossHigh = (aovHigh - aov) * annualTransactions;
-                    // Calculate net revenue
+                    // Calculate just the increase amounts
+                    const aovLow = aov * lowPct;
+                    const aovMed = aov * medPct;
+                    const aovHigh = aov * highPct;
+                    // Gross Revenue Increase
+                    const grossLow = aovLow * annualTransactions;
+                    const grossMed = aovMed * annualTransactions;
+                    const grossHigh = aovHigh * annualTransactions;
+                    // Net Revenue Annual
                     const netLow = grossLow * profitMargin;
                     const netMed = grossMed * profitMargin;
                     const netHigh = grossHigh * profitMargin;
-                    // Update table cells
+                    // Update table
                     document.getElementById('upsell-aov-base').textContent = aov.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
                     document.getElementById('upsell-aov-low').textContent = aovLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
                     document.getElementById('upsell-aov-med').textContent = aovMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
