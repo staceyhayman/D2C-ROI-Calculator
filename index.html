@@ -260,17 +260,14 @@
                 <div class="section-title">Checkout Customization with API</div>
                 <table class="custom-api-table">
                     <tr>
-                        <th class="custom-api-header" colspan="4">Improvement in % conversion rate</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td class="custom-api-header">Low<br><span class="custom-api-bold">1%</span></td>
-                        <td class="custom-api-header">Med<br><span class="custom-api-bold">3%</span></td>
-                        <td class="custom-api-header">High<br><span class="custom-api-bold">5%</span></td>
+                        <th class="custom-api-header"></th>
+                        <th class="custom-api-header">Low<br><span class="custom-api-bold">1%</span></th>
+                        <th class="custom-api-header">Med<br><span class="custom-api-bold">3%</span></th>
+                        <th class="custom-api-header">High<br><span class="custom-api-bold">5%</span></th>
                     </tr>
                     <tr>
                         <td class="custom-api-label">GMV</td>
-                        <td class="custom-api-gmv" id="custom-gmv-base">$0</td>
+                        <td class="custom-api-gmv" id="custom-gmv-low">$0</td>
                         <td class="custom-api-gmv" id="custom-gmv-med">$0</td>
                         <td class="custom-api-gmv" id="custom-gmv-high">$0</td>
                     </tr>
@@ -573,7 +570,6 @@
                 try {
                     const gmv = parseFloat(document.getElementById('annual-gmv').value) || 0;
                     const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100 || 0;
-                    console.log('updateCustomApiTable() input values:', { gmv, profitMargin });
                     // Conversion rate improvements
                     const lowPct = 0.01, medPct = 0.03, highPct = 0.05;
                     // GMV for each scenario
@@ -589,7 +585,7 @@
                     const netMed = grossMed * profitMargin;
                     const netHigh = grossHigh * profitMargin;
                     // Update table
-                    document.getElementById('custom-gmv-base').textContent = gmv.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-gmv-low').textContent = gmv.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
                     document.getElementById('custom-gmv-med').textContent = gmvMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
                     document.getElementById('custom-gmv-high').textContent = gmvHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
                     document.getElementById('custom-gross-low').textContent = grossLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
