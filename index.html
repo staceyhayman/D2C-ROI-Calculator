@@ -37,6 +37,8 @@
             margin-bottom: 20px;
             background-color: white;
             table-layout: fixed;
+            border-radius: 14px;
+            overflow: hidden;
         }
         th, td {
             border: 1px solid #ddd;
@@ -111,6 +113,8 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 30px;
+            border-radius: 14px;
+            overflow: hidden;
         }
         .custom-api-table th, .custom-api-table td {
             border: 1px solid #ddd;
@@ -297,26 +301,40 @@
             </div>
             <div class="section">
                 <div class="section-title">Checkout Upsell with 3P apps</div>
-                <table>
+                <table class="custom-api-table">
                     <tr>
-                        <th>Metric</th>
-                        <th>Value</th>
+                        <td style="width: 20%;"></td>
+                        <th class="custom-api-header" colspan="3">Increase in AOV</th>
                     </tr>
                     <tr>
-                        <td>AOV Increase</td>
-                        <td id="checkout-upsell-aov-increase">0%</td>
+                        <td style="font-weight:bold; text-align:center;">AOV</td>
+                        <td class="custom-api-header">Low<br><span class="custom-api-bold">5%</span></td>
+                        <td class="custom-api-header">Med<br><span class="custom-api-bold">10%</span></td>
+                        <td class="custom-api-header">High<br><span class="custom-api-bold">20%</span></td>
                     </tr>
                     <tr>
-                        <td>New AOV</td>
-                        <td id="checkout-upsell-new-aov">$0.00</td>
+                        <td id="upsell-aov-base" style="text-align:center;"></td>
+                        <td class="custom-api-gmv" id="upsell-aov-low">$0</td>
+                        <td class="custom-api-gmv" id="upsell-aov-med">$0</td>
+                        <td class="custom-api-gmv" id="upsell-aov-high">$0</td>
                     </tr>
                     <tr>
-                        <td>Revenue Impact</td>
-                        <td id="checkout-upsell-revenue">$0.00</td>
+                        <td class="custom-api-label">Gross Revenue Increase</td>
+                        <td class="custom-api-gross" id="upsell-gross-low">$0</td>
+                        <td class="custom-api-gross" id="upsell-gross-med">$0</td>
+                        <td class="custom-api-gross" id="upsell-gross-high">$0</td>
                     </tr>
                     <tr>
-                        <td>Margin Impact</td>
-                        <td id="checkout-upsell-margin">$0.00</td>
+                        <td class="custom-api-label">Profit Margin</td>
+                        <td class="custom-api-profit" id="upsell-profit-low">0%</td>
+                        <td class="custom-api-profit" id="upsell-profit-med">0%</td>
+                        <td class="custom-api-profit" id="upsell-profit-high">0%</td>
+                    </tr>
+                    <tr>
+                        <td class="custom-api-total">Net Revenue Annual</td>
+                        <td class="custom-api-total" id="upsell-net-low">$0</td>
+                        <td class="custom-api-total" id="upsell-net-med">$0</td>
+                        <td class="custom-api-total" id="upsell-net-high">$0</td>
                     </tr>
                 </table>
             </div>
@@ -457,8 +475,13 @@
             // Calculate button triggers calculation
             document.getElementById('calculate-btn').addEventListener('click', function() {
                 try {
+                    console.log('Calculate button clicked');
                     calculateAll();
+                    console.log('After calculateAll');
                     updateCustomApiTable();
+                    console.log('After updateCustomApiTable');
+                    updateUpsellTable();
+                    console.log('After updateUpsellTable');
                 } catch (err) {
                     console.error('Error in Calculate button handler:', err);
                 }
@@ -607,9 +630,51 @@
                 }
             }
 
+            // --- Upsell Table Calculation ---
+            function updateUpsellTable() {
+                try {
+                    const aov = parseFloat(document.getElementById('aov').value) || 0;
+                    const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100 || 0;
+                    const annualTransactions = parseFloat(document.getElementById('annual-transactions').value) || 0;
+                    // AOV increase scenarios
+                    const lowPct = 0.05, medPct = 0.10, highPct = 0.20;
+                    // Calculate new AOVs
+                    const aovLow = aov * (1 + lowPct);
+                    const aovMed = aov * (1 + medPct);
+                    const aovHigh = aov * (1 + highPct);
+                    // Calculate gross revenue increases
+                    const grossLow = (aovLow - aov) * annualTransactions;
+                    const grossMed = (aovMed - aov) * annualTransactions;
+                    const grossHigh = (aovHigh - aov) * annualTransactions;
+                    // Calculate net revenue
+                    const netLow = grossLow * profitMargin;
+                    const netMed = grossMed * profitMargin;
+                    const netHigh = grossHigh * profitMargin;
+                    // Update table cells
+                    document.getElementById('upsell-aov-base').textContent = aov.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+                    document.getElementById('upsell-aov-low').textContent = aovLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+                    document.getElementById('upsell-aov-med').textContent = aovMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+                    document.getElementById('upsell-aov-high').textContent = aovHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+                    document.getElementById('upsell-gross-low').textContent = grossLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('upsell-gross-med').textContent = grossMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('upsell-gross-high').textContent = grossHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('upsell-profit-low').textContent = (profitMargin*100).toFixed(0) + '%';
+                    document.getElementById('upsell-profit-med').textContent = (profitMargin*100).toFixed(0) + '%';
+                    document.getElementById('upsell-profit-high').textContent = (profitMargin*100).toFixed(0) + '%';
+                    document.getElementById('upsell-net-low').textContent = netLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('upsell-net-med').textContent = netMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('upsell-net-high').textContent = netHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                } catch (err) {
+                    console.error('Error in updateUpsellTable:', err);
+                }
+            }
+
             // Initial calculation
+            console.log('Running initial calculations');
             calculateAll();
             updateCustomApiTable();
+            updateUpsellTable();
+            console.log('Initial calculations complete');
         } catch (err) {
             console.error('Script initialization error:', err);
         }
