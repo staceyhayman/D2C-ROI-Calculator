@@ -107,6 +107,38 @@
             max-width: 50%;
             margin-bottom: 0;
         }
+        .custom-api-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .custom-api-table th, .custom-api-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .custom-api-header {
+            background: #cccccc;
+            font-weight: bold;
+        }
+        .custom-api-label {
+            font-weight: bold;
+            background: #d6cdea;
+            text-align: left;
+        }
+        .custom-api-gmv, .custom-api-gross {
+            background: #fff5d7;
+        }
+        .custom-api-profit {
+            background: #fff;
+        }
+        .custom-api-total {
+            background: #bdbdbd;
+            font-weight: bold;
+        }
+        .custom-api-bold {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -229,30 +261,39 @@
         <div class="table-row-flex">
             <div class="section">
                 <div class="section-title">Checkout Customization with API</div>
-                <table>
+                <table class="custom-api-table">
                     <tr>
-                        <th>Metric</th>
-                        <th>Value</th>
+                        <th class="custom-api-header" colspan="4">Improvement in % conversion rate</th>
                     </tr>
                     <tr>
-                        <td>Conversion Rate Increase</td>
-                        <td id="checkout-custom-conv-increase">0%</td>
+                        <td></td>
+                        <td class="custom-api-header">Low<br><span class="custom-api-bold">1%</span></td>
+                        <td class="custom-api-header">Med<br><span class="custom-api-bold">3%</span></td>
+                        <td class="custom-api-header">High<br><span class="custom-api-bold">5%</span></td>
                     </tr>
                     <tr>
-                        <td>New Conversion Rate</td>
-                        <td id="checkout-custom-new-conv">0%</td>
+                        <td class="custom-api-label">GMV</td>
+                        <td class="custom-api-gmv" id="custom-gmv-base">$0</td>
+                        <td class="custom-api-gmv" id="custom-gmv-med">$0</td>
+                        <td class="custom-api-gmv" id="custom-gmv-high">$0</td>
                     </tr>
                     <tr>
-                        <td>Additional Orders</td>
-                        <td id="checkout-custom-orders">0</td>
+                        <td class="custom-api-label">Gross Revenue Increase</td>
+                        <td class="custom-api-gross" id="custom-gross-low">$0</td>
+                        <td class="custom-api-gross" id="custom-gross-med">$0</td>
+                        <td class="custom-api-gross" id="custom-gross-high">$0</td>
                     </tr>
                     <tr>
-                        <td>Revenue Impact</td>
-                        <td id="checkout-custom-revenue">$0.00</td>
+                        <td class="custom-api-label">Profit Margin</td>
+                        <td class="custom-api-profit" id="custom-profit-low">0%</td>
+                        <td class="custom-api-profit" id="custom-profit-med">0%</td>
+                        <td class="custom-api-profit" id="custom-profit-high">0%</td>
                     </tr>
                     <tr>
-                        <td>Margin Impact</td>
-                        <td id="checkout-custom-margin">$0.00</td>
+                        <td class="custom-api-total">Net Revenue Annual</td>
+                        <td class="custom-api-total" id="custom-net-low">$0</td>
+                        <td class="custom-api-total" id="custom-net-med">$0</td>
+                        <td class="custom-api-total" id="custom-net-high">$0</td>
                     </tr>
                 </table>
             </div>
@@ -413,7 +454,10 @@
             });
         });
         // Calculate button triggers calculation
-        document.getElementById('calculate-btn').addEventListener('click', calculateAll);
+        document.getElementById('calculate-btn').addEventListener('click', function() {
+            calculateAll();
+            updateCustomApiTable();
+        });
 
         function calculateAll() {
             // Get input values
@@ -501,8 +545,42 @@
             });
         }
 
+        // --- Custom API Table Calculation ---
+        function updateCustomApiTable() {
+            const gmv = parseFloat(document.getElementById('annual-gmv').value) || 0;
+            const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100 || 0;
+            // Conversion rate improvements
+            const lowPct = 0.01, medPct = 0.03, highPct = 0.05;
+            // GMV for each scenario
+            const gmvLow = gmv * (1 + lowPct);
+            const gmvMed = gmv * (1 + medPct);
+            const gmvHigh = gmv * (1 + highPct);
+            // Gross Revenue Increase
+            const grossLow = gmvLow - gmv;
+            const grossMed = gmvMed - gmv;
+            const grossHigh = gmvHigh - gmv;
+            // Net Revenue Annual
+            const netLow = grossLow * profitMargin;
+            const netMed = grossMed * profitMargin;
+            const netHigh = grossHigh * profitMargin;
+            // Update table
+            document.getElementById('custom-gmv-base').textContent = gmv.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+            document.getElementById('custom-gmv-med').textContent = gmvMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+            document.getElementById('custom-gmv-high').textContent = gmvHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+            document.getElementById('custom-gross-low').textContent = grossLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+            document.getElementById('custom-gross-med').textContent = grossMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+            document.getElementById('custom-gross-high').textContent = grossHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+            document.getElementById('custom-profit-low').textContent = (profitMargin*100).toFixed(0) + '%';
+            document.getElementById('custom-profit-med').textContent = (profitMargin*100).toFixed(0) + '%';
+            document.getElementById('custom-profit-high').textContent = (profitMargin*100).toFixed(0) + '%';
+            document.getElementById('custom-net-low').textContent = netLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+            document.getElementById('custom-net-med').textContent = netMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+            document.getElementById('custom-net-high').textContent = netHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+        }
+
         // Initial calculation
         calculateAll();
+        updateCustomApiTable();
     </script>
 </body>
 </html> 
