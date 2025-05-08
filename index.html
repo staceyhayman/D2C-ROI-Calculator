@@ -153,41 +153,41 @@
             <table class="cost-inputs-table">
                 <tr>
                     <td>Merchant Annual GMV</td>
-                    <td><span style="font-weight:bold">$</span><input type="number" id="annual-gmv" value="1000000" style="width:110px; margin-left:4px;"></td>
+                    <td><span style="font-weight:bold">$</span><input type="number" id="annual-gmv" value="1000000" style="width:110px; margin-left:4px;" step="any"></td>
                 </tr>
                 <tr>
                     <td>Average Order Value (AOV)</td>
-                    <td><span style="font-weight:bold">$</span><input type="number" id="aov" value="70" style="width:110px; margin-left:4px;"></td>
+                    <td><span style="font-weight:bold">$</span><input type="number" id="aov" value="70" style="width:110px; margin-left:4px;" step="any"></td>
                 </tr>
                 <tr>
                     <td>Average # of Transactions</td>
-                    <td><input type="number" id="annual-transactions" value="35000"></td>
+                    <td><input type="number" id="annual-transactions" value="35000" step="any"></td>
                 </tr>
                 <tr>
                     <td>Profit Margin</td>
-                    <td><input type="range" class="cost-slider" id="profit-margin" min="0" max="100" value="15" oninput="document.getElementById('profit-margin-value').textContent = this.value + '%'">
+                    <td><input type="range" class="cost-slider" id="profit-margin" min="0" max="100" value="15" step="any" oninput="document.getElementById('profit-margin-value').textContent = this.value + '%'">
                     <span id="profit-margin-value">15%</span></td>
                 </tr>
                 <tr>
                     <td>Ad Spend</td>
-                    <td><span style="font-weight:bold">$</span><input type="number" id="ad-spend" value="50000" style="width:110px; margin-left:4px;"></td>
+                    <td><span style="font-weight:bold">$</span><input type="number" id="ad-spend" value="50000" style="width:110px; margin-left:4px;" step="any"></td>
                 </tr>
                 <tr>
                     <td>Retargeting Budget Allocation</td>
-                    <td><input type="range" class="cost-slider" id="retargeting-budget" min="0" max="100" value="15" oninput="document.getElementById('retargeting-budget-value').textContent = this.value + '%'">
+                    <td><input type="range" class="cost-slider" id="retargeting-budget" min="0" max="100" value="15" step="any" oninput="document.getElementById('retargeting-budget-value').textContent = this.value + '%'">
                     <span id="retargeting-budget-value">15%</span></td>
                 </tr>
                 <tr>
                     <td>Retargeting CPA</td>
-                    <td><span style="font-weight:bold">$</span><input type="number" id="retargeting-cpa" value="75" style="width:110px; margin-left:4px;"></td>
+                    <td><span style="font-weight:bold">$</span><input type="number" id="retargeting-cpa" value="75" style="width:110px; margin-left:4px;" step="any"></td>
                 </tr>
                 <tr>
                     <td>Prospecting CPA</td>
-                    <td><span style="font-weight:bold">$</span><input type="number" id="prospecting-cpa" value="100" style="width:110px; margin-left:4px;"></td>
+                    <td><span style="font-weight:bold">$</span><input type="number" id="prospecting-cpa" value="100" style="width:110px; margin-left:4px;" step="any"></td>
                 </tr>
                 <tr>
                     <td>LTV</td>
-                    <td><span style="font-weight:bold">$</span><input type="number" id="ltv" value="200" style="width:110px; margin-left:4px;"></td>
+                    <td><span style="font-weight:bold">$</span><input type="number" id="ltv" value="200" style="width:110px; margin-left:4px;" step="any"></td>
                 </tr>
                 <tr>
                     <td>Payments Profile Online</td>
@@ -469,6 +469,17 @@
             const annualTransactions = parseInt(document.getElementById('annual-transactions').value);
             const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100;
             const currentConversionRate = parseFloat(document.getElementById('conversion-rate').value) / 100;
+            console.log('calculateAll() input values:', {
+                annualGMV, aov, annualTransactions, profitMargin, currentConversionRate,
+                adSpend: document.getElementById('ad-spend').value,
+                retargetingBudget: document.getElementById('retargeting-budget').value,
+                retargetingCPA: document.getElementById('retargeting-cpa').value,
+                prospectingCPA: document.getElementById('prospecting-cpa').value,
+                ltv: document.getElementById('ltv').value,
+                paymentsProfile: document.getElementById('payments-profile').value,
+                ordersPayments: document.getElementById('orders-payments').value,
+                shopPayUsage: document.getElementById('shop-pay-usage').value
+            });
 
             // Calculate for each feature and scenario
             calculateFeature('checkout-custom', {
@@ -552,6 +563,7 @@
         function updateCustomApiTable() {
             const gmv = parseFloat(document.getElementById('annual-gmv').value) || 0;
             const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100 || 0;
+            console.log('updateCustomApiTable() input values:', { gmv, profitMargin });
             // Conversion rate improvements
             const lowPct = 0.01, medPct = 0.03, highPct = 0.05;
             // GMV for each scenario
