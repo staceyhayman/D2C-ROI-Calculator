@@ -36,11 +36,27 @@
             width: 100%;
             margin-bottom: 20px;
             background-color: white;
+            table-layout: fixed;
         }
         th, td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
+        }
+        .cost-inputs-table td:first-child {
+            width: 32%;
+            min-width: 120px;
+            max-width: 180px;
+            word-break: break-word;
+        }
+        .cost-inputs-table td:last-child {
+            width: 68%;
+        }
+        .cost-slider {
+            width: 80%;
+            min-width: 180px;
+            max-width: 350px;
+            margin-right: 10px;
         }
         th {
             background-color: #f5f5f5;
@@ -88,7 +104,7 @@
         
         <div class="section">
             <div class="section-title">Cost Inputs</div>
-            <table>
+            <table class="cost-inputs-table">
                 <tr>
                     <td>Merchant Annual GMV</td>
                     <td><span style="font-weight:bold">$</span><input type="number" id="annual-gmv" value="1000000" style="width:110px; margin-left:4px;"></td>
@@ -103,7 +119,7 @@
                 </tr>
                 <tr>
                     <td>Profit Margin</td>
-                    <td><input type="range" id="profit-margin" min="0" max="100" value="15" oninput="document.getElementById('profit-margin-value').textContent = this.value + '%'">
+                    <td><input type="range" class="cost-slider" id="profit-margin" min="0" max="100" value="15" oninput="document.getElementById('profit-margin-value').textContent = this.value + '%'">
                     <span id="profit-margin-value">15%</span></td>
                 </tr>
                 <tr>
@@ -112,7 +128,7 @@
                 </tr>
                 <tr>
                     <td>Retargeting Budget Allocation</td>
-                    <td><input type="range" id="retargeting-budget" min="0" max="100" value="15" oninput="document.getElementById('retargeting-budget-value').textContent = this.value + '%'">
+                    <td><input type="range" class="cost-slider" id="retargeting-budget" min="0" max="100" value="15" oninput="document.getElementById('retargeting-budget-value').textContent = this.value + '%'">
                     <span id="retargeting-budget-value">15%</span></td>
                 </tr>
                 <tr>
@@ -129,22 +145,22 @@
                 </tr>
                 <tr>
                     <td>Payments Profile Online</td>
-                    <td><input type="range" id="payments-profile" min="0" max="100" value="100" oninput="document.getElementById('payments-profile-value').textContent = this.value + '%'">
+                    <td><input type="range" class="cost-slider" id="payments-profile" min="0" max="100" value="100" oninput="document.getElementById('payments-profile-value').textContent = this.value + '%'">
                     <span id="payments-profile-value">100%</span></td>
                 </tr>
                 <tr>
                     <td>Orders processed on Shopify Payments</td>
-                    <td><input type="range" id="orders-payments" min="0" max="100" value="100" oninput="document.getElementById('orders-payments-value').textContent = this.value + '%'">
+                    <td><input type="range" class="cost-slider" id="orders-payments" min="0" max="100" value="100" oninput="document.getElementById('orders-payments-value').textContent = this.value + '%'">
                     <span id="orders-payments-value">100%</span></td>
                 </tr>
                 <tr>
                     <td>Current Conversion Rate (%)</td>
-                    <td><input type="range" id="conversion-rate" min="0" max="100" value="3" oninput="document.getElementById('conversion-rate-value').textContent = this.value + '%'">
+                    <td><input type="range" class="cost-slider" id="conversion-rate" min="0" max="100" value="3" oninput="document.getElementById('conversion-rate-value').textContent = this.value + '%'">
                     <span id="conversion-rate-value">3%</span></td>
                 </tr>
                 <tr>
                     <td>Shop Pay Usage (%)</td>
-                    <td><input type="range" id="shop-pay-usage" min="0" max="100" value="40" oninput="document.getElementById('shop-pay-usage-value').textContent = this.value + '%'">
+                    <td><input type="range" class="cost-slider" id="shop-pay-usage" min="0" max="100" value="40" oninput="document.getElementById('shop-pay-usage-value').textContent = this.value + '%'">
                     <span id="shop-pay-usage-value">40%</span></td>
                 </tr>
             </table>
