@@ -96,6 +96,17 @@
         .negative {
             color: #e74c3c;
         }
+        .table-row-flex {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .table-row-flex .section {
+            flex: 1 1 0;
+            min-width: 0;
+            max-width: 50%;
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -215,60 +226,61 @@
         </div>
 
         <!-- Feature Impact Tables -->
-        <div class="section">
-            <div class="section-title">Checkout Customization with API</div>
-            <table>
-                <tr>
-                    <th>Metric</th>
-                    <th>Value</th>
-                </tr>
-                <tr>
-                    <td>Conversion Rate Increase</td>
-                    <td id="checkout-custom-conv-increase">0%</td>
-                </tr>
-                <tr>
-                    <td>New Conversion Rate</td>
-                    <td id="checkout-custom-new-conv">0%</td>
-                </tr>
-                <tr>
-                    <td>Additional Orders</td>
-                    <td id="checkout-custom-orders">0</td>
-                </tr>
-                <tr>
-                    <td>Revenue Impact</td>
-                    <td id="checkout-custom-revenue">$0.00</td>
-                </tr>
-                <tr>
-                    <td>Margin Impact</td>
-                    <td id="checkout-custom-margin">$0.00</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="section">
-            <div class="section-title">Checkout Upsell with 3P apps</div>
-            <table>
-                <tr>
-                    <th>Metric</th>
-                    <th>Value</th>
-                </tr>
-                <tr>
-                    <td>AOV Increase</td>
-                    <td id="checkout-upsell-aov-increase">0%</td>
-                </tr>
-                <tr>
-                    <td>New AOV</td>
-                    <td id="checkout-upsell-new-aov">$0.00</td>
-                </tr>
-                <tr>
-                    <td>Revenue Impact</td>
-                    <td id="checkout-upsell-revenue">$0.00</td>
-                </tr>
-                <tr>
-                    <td>Margin Impact</td>
-                    <td id="checkout-upsell-margin">$0.00</td>
-                </tr>
-            </table>
+        <div class="table-row-flex">
+            <div class="section">
+                <div class="section-title">Checkout Customization with API</div>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate Increase</td>
+                        <td id="checkout-custom-conv-increase">0%</td>
+                    </tr>
+                    <tr>
+                        <td>New Conversion Rate</td>
+                        <td id="checkout-custom-new-conv">0%</td>
+                    </tr>
+                    <tr>
+                        <td>Additional Orders</td>
+                        <td id="checkout-custom-orders">0</td>
+                    </tr>
+                    <tr>
+                        <td>Revenue Impact</td>
+                        <td id="checkout-custom-revenue">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Margin Impact</td>
+                        <td id="checkout-custom-margin">$0.00</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="section">
+                <div class="section-title">Checkout Upsell with 3P apps</div>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>AOV Increase</td>
+                        <td id="checkout-upsell-aov-increase">0%</td>
+                    </tr>
+                    <tr>
+                        <td>New AOV</td>
+                        <td id="checkout-upsell-new-aov">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Revenue Impact</td>
+                        <td id="checkout-upsell-revenue">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Margin Impact</td>
+                        <td id="checkout-upsell-margin">$0.00</td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <div class="section">
@@ -331,90 +343,65 @@
             </table>
         </div>
 
-        <div class="section">
-            <div class="section-title">Increased Conversion with Shop Pay</div>
-            <table>
-                <tr>
-                    <th>Metric</th>
-                    <th>Value</th>
-                </tr>
-                <tr>
-                    <td>Conversion Rate Increase</td>
-                    <td id="shop-pay-conv-increase">0%</td>
-                </tr>
-                <tr>
-                    <td>New Conversion Rate</td>
-                    <td id="shop-pay-new-conv">0%</td>
-                </tr>
-                <tr>
-                    <td>Additional Orders</td>
-                    <td id="shop-pay-orders">0</td>
-                </tr>
-                <tr>
-                    <td>Revenue Impact</td>
-                    <td id="shop-pay-revenue">$0.00</td>
-                </tr>
-                <tr>
-                    <td>Margin Impact</td>
-                    <td id="shop-pay-margin">$0.00</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="section">
-            <div class="section-title">Increased AOV with Shop Pay</div>
-            <table>
-                <tr>
-                    <th>Metric</th>
-                    <th>Value</th>
-                </tr>
-                <tr>
-                    <td>AOV Increase</td>
-                    <td id="shop-pay-aov-increase">0%</td>
-                </tr>
-                <tr>
-                    <td>New AOV</td>
-                    <td id="shop-pay-new-aov">$0.00</td>
-                </tr>
-                <tr>
-                    <td>Revenue Impact</td>
-                    <td id="shop-pay-aov-revenue">$0.00</td>
-                </tr>
-                <tr>
-                    <td>Margin Impact</td>
-                    <td id="shop-pay-aov-margin">$0.00</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="section">
-            <div class="section-title">Increased Conversion without Shop Pay</div>
-            <table>
-                <tr>
-                    <th>Metric</th>
-                    <th>Value</th>
-                </tr>
-                <tr>
-                    <td>Conversion Rate Increase</td>
-                    <td id="non-shop-pay-conv-increase">0%</td>
-                </tr>
-                <tr>
-                    <td>New Conversion Rate</td>
-                    <td id="non-shop-pay-new-conv">0%</td>
-                </tr>
-                <tr>
-                    <td>Additional Orders</td>
-                    <td id="non-shop-pay-orders">0</td>
-                </tr>
-                <tr>
-                    <td>Revenue Impact</td>
-                    <td id="non-shop-pay-revenue">$0.00</td>
-                </tr>
-                <tr>
-                    <td>Margin Impact</td>
-                    <td id="non-shop-pay-margin">$0.00</td>
-                </tr>
-            </table>
+        <div class="table-row-flex">
+            <div class="section">
+                <div class="section-title">Increased Conversion with Shop Pay</div>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate Increase</td>
+                        <td id="shop-pay-conv-increase">0%</td>
+                    </tr>
+                    <tr>
+                        <td>New Conversion Rate</td>
+                        <td id="shop-pay-new-conv">0%</td>
+                    </tr>
+                    <tr>
+                        <td>Additional Orders</td>
+                        <td id="shop-pay-orders">0</td>
+                    </tr>
+                    <tr>
+                        <td>Revenue Impact</td>
+                        <td id="shop-pay-revenue">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Margin Impact</td>
+                        <td id="shop-pay-margin">$0.00</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="section">
+                <div class="section-title">Increased Conversion without Shop Pay</div>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate Increase</td>
+                        <td id="non-shop-pay-conv-increase">0%</td>
+                    </tr>
+                    <tr>
+                        <td>New Conversion Rate</td>
+                        <td id="non-shop-pay-new-conv">0%</td>
+                    </tr>
+                    <tr>
+                        <td>Additional Orders</td>
+                        <td id="non-shop-pay-orders">0</td>
+                    </tr>
+                    <tr>
+                        <td>Revenue Impact</td>
+                        <td id="non-shop-pay-revenue">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Margin Impact</td>
+                        <td id="non-shop-pay-margin">$0.00</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 
