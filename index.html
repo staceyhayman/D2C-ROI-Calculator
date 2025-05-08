@@ -266,7 +266,11 @@
                         <th class="custom-api-header">High<br><span class="custom-api-bold">5%</span></th>
                     </tr>
                     <tr>
-                        <td class="custom-api-label">GMV</td>
+                        <td style="font-weight:bold; text-align:center;">GMV</td>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td id="custom-gmv-base" style="text-align:center;"></td>
                         <td class="custom-api-gmv" id="custom-gmv-low">$0</td>
                         <td class="custom-api-gmv" id="custom-gmv-med">$0</td>
                         <td class="custom-api-gmv" id="custom-gmv-high">$0</td>
@@ -585,7 +589,8 @@
                     const netMed = grossMed * profitMargin;
                     const netHigh = grossHigh * profitMargin;
                     // Update table
-                    document.getElementById('custom-gmv-low').textContent = gmv.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-gmv-base').textContent = gmv.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-gmv-low').textContent = gmvLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
                     document.getElementById('custom-gmv-med').textContent = gmvMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
                     document.getElementById('custom-gmv-high').textContent = gmvHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
                     document.getElementById('custom-gross-low').textContent = grossLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
