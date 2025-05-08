@@ -450,152 +450,175 @@
     </div>
 
     <script>
-        // Only add listeners to sliders for live value update
-        document.querySelectorAll('input[type="range"]').forEach(input => {
-            input.addEventListener('input', function() {
-                // update value display only
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Script loaded');
+        try {
+            // Only add listeners to sliders for live value update
+            document.querySelectorAll('input[type="range"]').forEach(input => {
+                input.addEventListener('input', function() {
+                    // update value display only
+                });
             });
-        });
-        // Calculate button triggers calculation
-        document.getElementById('calculate-btn').addEventListener('click', function() {
+            // Calculate button triggers calculation
+            document.getElementById('calculate-btn').addEventListener('click', function() {
+                try {
+                    calculateAll();
+                    updateCustomApiTable();
+                } catch (err) {
+                    console.error('Error in Calculate button handler:', err);
+                }
+            });
+
+            function calculateAll() {
+                try {
+                    // Get input values
+                    const annualGMV = parseFloat(document.getElementById('annual-gmv').value);
+                    const aov = parseFloat(document.getElementById('aov').value);
+                    const annualTransactions = parseInt(document.getElementById('annual-transactions').value);
+                    const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100;
+                    const currentConversionRate = parseFloat(document.getElementById('conversion-rate').value) / 100;
+                    console.log('calculateAll() input values:', {
+                        annualGMV, aov, annualTransactions, profitMargin, currentConversionRate,
+                        adSpend: document.getElementById('ad-spend').value,
+                        retargetingBudget: document.getElementById('retargeting-budget').value,
+                        retargetingCPA: document.getElementById('retargeting-cpa').value,
+                        prospectingCPA: document.getElementById('prospecting-cpa').value,
+                        ltv: document.getElementById('ltv').value,
+                        paymentsProfile: document.getElementById('payments-profile').value,
+                        ordersPayments: document.getElementById('orders-payments').value,
+                        shopPayUsage: document.getElementById('shop-pay-usage').value
+                    });
+
+                    // Calculate for each feature and scenario
+                    calculateFeature('checkout-custom', {
+                        medium: { convIncrease: 0.03, cost: 0 },
+                        high: { convIncrease: 0.05, cost: 0 }
+                    }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+                    calculateFeature('checkout-upsell', {
+                        medium: { aovIncrease: 0.10, cost: 0 },
+                        high: { aovIncrease: 0.20, cost: 0 }
+                    }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+                    calculateFeature('plus-support', {
+                        medium: { convIncrease: 0.01, cost: 0 },
+                        high: { convIncrease: 0.015, cost: 0 }
+                    }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+                    calculateFeature('audiences', {
+                        medium: { convIncrease: 0.04, cost: 0 },
+                        high: { convIncrease: 0.06, cost: 0 }
+                    }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+                    calculateFeature('shop-pay-conv', {
+                        medium: { convIncrease: 0.05, cost: 0 },
+                        high: { convIncrease: 0.07, cost: 0 }
+                    }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+                    calculateFeature('shop-pay-aov', {
+                        medium: { aovIncrease: 0.10, cost: 0 },
+                        high: { aovIncrease: 0.20, cost: 0 }
+                    }, annualTransactions, aov, profitMargin, currentConversionRate);
+
+                    calculateFeature('non-shop-pay', {
+                        medium: { convIncrease: 0.02, cost: 0 },
+                        high: { convIncrease: 0.03, cost: 0 }
+                    }, annualTransactions, aov, profitMargin, currentConversionRate);
+                } catch (err) {
+                    console.error('Error in calculateAll:', err);
+                }
+            }
+
+            function calculateFeature(prefix, scenarios, annualTransactions, aov, profitMargin, currentConversionRate) {
+                try {
+                    // Calculate for each scenario
+                    Object.entries(scenarios).forEach(([scenario, data]) => {
+                        let revenueImpact, marginImpact;
+                        
+                        if (data.convIncrease) {
+                            // Conversion rate based calculation
+                            const newConversionRate = currentConversionRate * (1 + data.convIncrease);
+                            const additionalOrders = annualTransactions * data.convIncrease;
+                            revenueImpact = additionalOrders * aov;
+                            marginImpact = revenueImpact * profitMargin;
+
+                            // Update feature-specific table
+                            if (scenario === 'medium') {
+                                document.getElementById(`${prefix}-conv-increase`).textContent = `${(data.convIncrease * 100).toFixed(1)}%`;
+                                document.getElementById(`${prefix}-new-conv`).textContent = `${(newConversionRate * 100).toFixed(2)}%`;
+                                document.getElementById(`${prefix}-orders`).textContent = additionalOrders.toLocaleString();
+                                document.getElementById(`${prefix}-revenue`).textContent = `$${revenueImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                                document.getElementById(`${prefix}-margin`).textContent = `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                            }
+                        } else if (data.aovIncrease) {
+                            // AOV based calculation
+                            const newAov = aov * (1 + data.aovIncrease);
+                            revenueImpact = annualTransactions * (newAov - aov);
+                            marginImpact = revenueImpact * profitMargin;
+
+                            // Update feature-specific table
+                            if (scenario === 'medium') {
+                                document.getElementById(`${prefix}-aov-increase`).textContent = `${(data.aovIncrease * 100).toFixed(1)}%`;
+                                document.getElementById(`${prefix}-new-aov`).textContent = `$${newAov.toFixed(2)}`;
+                                document.getElementById(`${prefix}-revenue`).textContent = `$${revenueImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                                document.getElementById(`${prefix}-margin`).textContent = `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                            }
+                        }
+
+                        // Update summary table
+                        document.getElementById(`${prefix}-${scenario}`).textContent = 
+                            `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                    });
+                } catch (err) {
+                    console.error('Error in calculateFeature:', err);
+                }
+            }
+
+            // --- Custom API Table Calculation ---
+            function updateCustomApiTable() {
+                try {
+                    const gmv = parseFloat(document.getElementById('annual-gmv').value) || 0;
+                    const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100 || 0;
+                    console.log('updateCustomApiTable() input values:', { gmv, profitMargin });
+                    // Conversion rate improvements
+                    const lowPct = 0.01, medPct = 0.03, highPct = 0.05;
+                    // GMV for each scenario
+                    const gmvLow = gmv * (1 + lowPct);
+                    const gmvMed = gmv * (1 + medPct);
+                    const gmvHigh = gmv * (1 + highPct);
+                    // Gross Revenue Increase
+                    const grossLow = gmvLow - gmv;
+                    const grossMed = gmvMed - gmv;
+                    const grossHigh = gmvHigh - gmv;
+                    // Net Revenue Annual
+                    const netLow = grossLow * profitMargin;
+                    const netMed = grossMed * profitMargin;
+                    const netHigh = grossHigh * profitMargin;
+                    // Update table
+                    document.getElementById('custom-gmv-base').textContent = gmv.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-gmv-med').textContent = gmvMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-gmv-high').textContent = gmvHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-gross-low').textContent = grossLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-gross-med').textContent = grossMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-gross-high').textContent = grossHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-profit-low').textContent = (profitMargin*100).toFixed(0) + '%';
+                    document.getElementById('custom-profit-med').textContent = (profitMargin*100).toFixed(0) + '%';
+                    document.getElementById('custom-profit-high').textContent = (profitMargin*100).toFixed(0) + '%';
+                    document.getElementById('custom-net-low').textContent = netLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-net-med').textContent = netMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                    document.getElementById('custom-net-high').textContent = netHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                } catch (err) {
+                    console.error('Error in updateCustomApiTable:', err);
+                }
+            }
+
+            // Initial calculation
             calculateAll();
             updateCustomApiTable();
-        });
-
-        function calculateAll() {
-            // Get input values
-            const annualGMV = parseFloat(document.getElementById('annual-gmv').value);
-            const aov = parseFloat(document.getElementById('aov').value);
-            const annualTransactions = parseInt(document.getElementById('annual-transactions').value);
-            const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100;
-            const currentConversionRate = parseFloat(document.getElementById('conversion-rate').value) / 100;
-            console.log('calculateAll() input values:', {
-                annualGMV, aov, annualTransactions, profitMargin, currentConversionRate,
-                adSpend: document.getElementById('ad-spend').value,
-                retargetingBudget: document.getElementById('retargeting-budget').value,
-                retargetingCPA: document.getElementById('retargeting-cpa').value,
-                prospectingCPA: document.getElementById('prospecting-cpa').value,
-                ltv: document.getElementById('ltv').value,
-                paymentsProfile: document.getElementById('payments-profile').value,
-                ordersPayments: document.getElementById('orders-payments').value,
-                shopPayUsage: document.getElementById('shop-pay-usage').value
-            });
-
-            // Calculate for each feature and scenario
-            calculateFeature('checkout-custom', {
-                medium: { convIncrease: 0.03, cost: 0 },
-                high: { convIncrease: 0.05, cost: 0 }
-            }, annualTransactions, aov, profitMargin, currentConversionRate);
-
-            calculateFeature('checkout-upsell', {
-                medium: { aovIncrease: 0.10, cost: 0 },
-                high: { aovIncrease: 0.20, cost: 0 }
-            }, annualTransactions, aov, profitMargin, currentConversionRate);
-
-            calculateFeature('plus-support', {
-                medium: { convIncrease: 0.01, cost: 0 },
-                high: { convIncrease: 0.015, cost: 0 }
-            }, annualTransactions, aov, profitMargin, currentConversionRate);
-
-            calculateFeature('audiences', {
-                medium: { convIncrease: 0.04, cost: 0 },
-                high: { convIncrease: 0.06, cost: 0 }
-            }, annualTransactions, aov, profitMargin, currentConversionRate);
-
-            calculateFeature('shop-pay-conv', {
-                medium: { convIncrease: 0.05, cost: 0 },
-                high: { convIncrease: 0.07, cost: 0 }
-            }, annualTransactions, aov, profitMargin, currentConversionRate);
-
-            calculateFeature('shop-pay-aov', {
-                medium: { aovIncrease: 0.10, cost: 0 },
-                high: { aovIncrease: 0.20, cost: 0 }
-            }, annualTransactions, aov, profitMargin, currentConversionRate);
-
-            calculateFeature('non-shop-pay', {
-                medium: { convIncrease: 0.02, cost: 0 },
-                high: { convIncrease: 0.03, cost: 0 }
-            }, annualTransactions, aov, profitMargin, currentConversionRate);
+        } catch (err) {
+            console.error('Script initialization error:', err);
         }
-
-        function calculateFeature(prefix, scenarios, annualTransactions, aov, profitMargin, currentConversionRate) {
-            // Calculate for each scenario
-            Object.entries(scenarios).forEach(([scenario, data]) => {
-                let revenueImpact, marginImpact;
-                
-                if (data.convIncrease) {
-                    // Conversion rate based calculation
-                    const newConversionRate = currentConversionRate * (1 + data.convIncrease);
-                    const additionalOrders = annualTransactions * data.convIncrease;
-                    revenueImpact = additionalOrders * aov;
-                    marginImpact = revenueImpact * profitMargin;
-
-                    // Update feature-specific table
-                    if (scenario === 'medium') {
-                        document.getElementById(`${prefix}-conv-increase`).textContent = `${(data.convIncrease * 100).toFixed(1)}%`;
-                        document.getElementById(`${prefix}-new-conv`).textContent = `${(newConversionRate * 100).toFixed(2)}%`;
-                        document.getElementById(`${prefix}-orders`).textContent = additionalOrders.toLocaleString();
-                        document.getElementById(`${prefix}-revenue`).textContent = `$${revenueImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                        document.getElementById(`${prefix}-margin`).textContent = `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                    }
-                } else if (data.aovIncrease) {
-                    // AOV based calculation
-                    const newAov = aov * (1 + data.aovIncrease);
-                    revenueImpact = annualTransactions * (newAov - aov);
-                    marginImpact = revenueImpact * profitMargin;
-
-                    // Update feature-specific table
-                    if (scenario === 'medium') {
-                        document.getElementById(`${prefix}-aov-increase`).textContent = `${(data.aovIncrease * 100).toFixed(1)}%`;
-                        document.getElementById(`${prefix}-new-aov`).textContent = `$${newAov.toFixed(2)}`;
-                        document.getElementById(`${prefix}-revenue`).textContent = `$${revenueImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                        document.getElementById(`${prefix}-margin`).textContent = `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                    }
-                }
-
-                // Update summary table
-                document.getElementById(`${prefix}-${scenario}`).textContent = 
-                    `$${marginImpact.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            });
-        }
-
-        // --- Custom API Table Calculation ---
-        function updateCustomApiTable() {
-            const gmv = parseFloat(document.getElementById('annual-gmv').value) || 0;
-            const profitMargin = parseFloat(document.getElementById('profit-margin').value) / 100 || 0;
-            console.log('updateCustomApiTable() input values:', { gmv, profitMargin });
-            // Conversion rate improvements
-            const lowPct = 0.01, medPct = 0.03, highPct = 0.05;
-            // GMV for each scenario
-            const gmvLow = gmv * (1 + lowPct);
-            const gmvMed = gmv * (1 + medPct);
-            const gmvHigh = gmv * (1 + highPct);
-            // Gross Revenue Increase
-            const grossLow = gmvLow - gmv;
-            const grossMed = gmvMed - gmv;
-            const grossHigh = gmvHigh - gmv;
-            // Net Revenue Annual
-            const netLow = grossLow * profitMargin;
-            const netMed = grossMed * profitMargin;
-            const netHigh = grossHigh * profitMargin;
-            // Update table
-            document.getElementById('custom-gmv-base').textContent = gmv.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-            document.getElementById('custom-gmv-med').textContent = gmvMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-            document.getElementById('custom-gmv-high').textContent = gmvHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-            document.getElementById('custom-gross-low').textContent = grossLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-            document.getElementById('custom-gross-med').textContent = grossMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-            document.getElementById('custom-gross-high').textContent = grossHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-            document.getElementById('custom-profit-low').textContent = (profitMargin*100).toFixed(0) + '%';
-            document.getElementById('custom-profit-med').textContent = (profitMargin*100).toFixed(0) + '%';
-            document.getElementById('custom-profit-high').textContent = (profitMargin*100).toFixed(0) + '%';
-            document.getElementById('custom-net-low').textContent = netLow.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-            document.getElementById('custom-net-med').textContent = netMed.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-            document.getElementById('custom-net-high').textContent = netHigh.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-        }
-
-        // Initial calculation
-        calculateAll();
-        updateCustomApiTable();
+    });
     </script>
 </body>
 </html> 
