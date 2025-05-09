@@ -954,9 +954,15 @@
             console.log('Initial calculations complete');
 
             function updateTrueCosts() {
-                const gmv = parseInt(document.getElementById('annual-gmv').value);
-                // Find the row in costsData with matching GMV
-                let found = costsData.find(row => row[0] === gmv);
+                let gmv = parseInt(document.getElementById('annual-gmv').value.replace(/[^0-9]/g, ''));
+                // Find the closest lower GMV in costsData
+                let found = null;
+                for (let i = costsData.length - 1; i >= 0; i--) {
+                    if (gmv >= costsData[i][0]) {
+                        found = costsData[i];
+                        break;
+                    }
+                }
                 if (found) {
                     document.getElementById('true-cost-1y').textContent = `$${found[8].toLocaleString()}`;
                     document.getElementById('true-cost-3y').textContent = `$${found[9].toLocaleString()}`;
