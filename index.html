@@ -218,6 +218,7 @@
     <nav class="nav-menu">
         <h2>ROI Calculator</h2>
         <ul>
+            <li><a href="#costs" data-page="costs">Costs $</a></li>
             <li><a href="#inputs" class="active" data-page="inputs">Input Parameters</a></li>
             <li><a href="#growth" data-page="growth">Growth Overview</a></li>
             <li><a href="#checkout" data-page="checkout">Checkout Features</a></li>
@@ -227,6 +228,28 @@
     </nav>
 
     <div class="main-content">
+        <!-- Costs $ Page -->
+        <div id="costs" class="page">
+            <h1>Costs $</h1>
+            <div class="section">
+                <div class="section-title">Shopify Plan Cost Comparison</div>
+                <table id="costs-table">
+                    <tr>
+                        <th>Merchant Annual GMV</th>
+                        <th>Monthly Basic + SP Annual Cost</th>
+                        <th>Monthly Shopify + SP Annual Cost</th>
+                        <th>Basic → Shopify True Upgrade Cost / Yr</th>
+                        <th>Monthly Advanced + SP Annual Cost</th>
+                        <th>Shopify → Advanced True Upgrade Cost / Yr</th>
+                        <th>Plus 1yr + SP Annual Cost</th>
+                        <th>Plus 3yr + SP Annual Cost</th>
+                        <th>Advanced → Plus 1yr True Upgrade Cost / Yr</th>
+                        <th>Advanced → Plus 3yr True Upgrade Cost / Yr</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
         <!-- Input Parameters Page -->
         <div id="inputs" class="page active">
             <h1>Input Parameters</h1>
@@ -877,6 +900,43 @@
                     console.error('Error in updateUpsellTable:', err);
                 }
             }
+
+            // Add Costs $ table data
+            const costsData = [
+                [50000, 1918, 2610, 692, 6038, 3428, 31125, 28725, 25087, 22687],
+                [100000, 3368, 3960, 592, 7288, 3328, 32250, 29850, 24962, 22562],
+                [150000, 4818, 5310, 492, 8538, 3228, 33375, 30975, 24837, 22437],
+                [200000, 6268, 6660, 392, 9788, 3128, 34500, 32100, 24712, 22312],
+                [250000, 7718, 8010, 292, 11038, 3028, 35625, 33225, 24587, 22187],
+                [300000, 9168, 9360, 192, 12288, 2928, 36750, 34350, 24462, 22062],
+                [400000, 12068, 12060, -8, 14788, 2728, 39000, 36600, 24212, 21812],
+                [500000, 14968, 14760, -208, 17288, 2528, 41250, 38850, 23962, 21562],
+                [600000, 17868, 17460, -408, 19788, 2328, 43500, 41100, 23712, 21312],
+                [700000, 20768, 20160, -608, 22288, 2128, 45750, 43350, 23462, 21062],
+                [800000, 23668, 22860, -808, 24788, 1928, 48000, 45600, 23212, 20812],
+                [900000, 26568, 25560, -1008, 27288, 1728, 50250, 47850, 22962, 20562],
+                [1000000, 29468, 28260, -1208, 29788, 1528, 52500, 50100, 22712, 20312],
+                [1250000, 36718, 35010, -1708, 36038, 1028, 58125, 55725, 22087, 19687],
+                [1500000, 43968, 41760, -2208, 42288, 528, 63750, 61350, 21462, 19062],
+                [1750000, 51218, 48510, -2708, 48538, 28, 69375, 66975, 20837, 18437],
+                [2000000, 58468, 55260, -3208, 54788, -472, 75000, 72600, 20212, 17812],
+                [3000000, 87468, 82260, -5208, 79788, -2472, 97500, 95100, 17712, 15312],
+                [4000000, 116468, 109260, -7208, 104788, -4472, 120000, 117600, 15212, 12812],
+            ];
+            const costsTable = document.getElementById('costs-table');
+            costsData.forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach((cell, i) => {
+                    const td = document.createElement('td');
+                    if (i === 0) {
+                        td.textContent = `$${cell.toLocaleString()}`;
+                    } else {
+                        td.textContent = cell < 0 ? `-$${Math.abs(cell).toLocaleString()}` : `$${cell.toLocaleString()}`;
+                    }
+                    tr.appendChild(td);
+                });
+                costsTable.appendChild(tr);
+            });
 
             // Initial calculation
             console.log('Running initial calculations');
