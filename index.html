@@ -953,6 +953,9 @@
             updateUpsellTable();
             console.log('Initial calculations complete');
 
+            // Ensure True Cost fields are set for default GMV on page load (move to end)
+            updateTrueCosts();
+
             function updateTrueCosts() {
                 let gmv = parseInt(document.getElementById('annual-gmv').value.replace(/[^0-9]/g, ''));
                 // Find the closest lower GMV in costsData
