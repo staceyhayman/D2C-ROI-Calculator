@@ -261,6 +261,14 @@
                         <td><span style="font-weight:bold">$</span><input type="number" id="annual-gmv" value="1000000" style="width:110px; margin-left:4px;" step="any"></td>
                     </tr>
                     <tr>
+                        <td>True Cost (1Y)</td>
+                        <td id="true-cost-1y">$0</td>
+                    </tr>
+                    <tr>
+                        <td>True Cost (3Y)</td>
+                        <td id="true-cost-3y">$0</td>
+                    </tr>
+                    <tr>
                         <td>Average Order Value (AOV)</td>
                         <td><span style="font-weight:bold">$</span><input type="number" id="aov" value="70" style="width:110px; margin-left:4px;" step="any"></td>
                     </tr>
@@ -313,14 +321,6 @@
                         <td>Shop Pay Usage (%)</td>
                         <td><input type="range" class="cost-slider" id="shop-pay-usage" min="0" max="100" value="40" oninput="document.getElementById('shop-pay-usage-value').textContent = this.value + '%'">
                         <span id="shop-pay-usage-value">40%</span></td>
-                    </tr>
-                    <tr>
-                        <td>True Cost (1Y)</td>
-                        <td id="true-cost-1y">$0</td>
-                    </tr>
-                    <tr>
-                        <td>True Cost (3Y)</td>
-                        <td id="true-cost-3y">$0</td>
                     </tr>
                 </table>
                 <button id="calculate-btn" style="margin-top: 15px; padding: 10px 20px; font-size: 1em;">Calculate</button>
