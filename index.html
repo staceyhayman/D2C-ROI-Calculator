@@ -314,6 +314,14 @@
                         <td><input type="range" class="cost-slider" id="shop-pay-usage" min="0" max="100" value="40" oninput="document.getElementById('shop-pay-usage-value').textContent = this.value + '%'">
                         <span id="shop-pay-usage-value">40%</span></td>
                     </tr>
+                    <tr>
+                        <td>True Cost (1Y)</td>
+                        <td id="true-cost-1y">$0</td>
+                    </tr>
+                    <tr>
+                        <td>True Cost (3Y)</td>
+                        <td id="true-cost-3y">$0</td>
+                    </tr>
                 </table>
                 <button id="calculate-btn" style="margin-top: 15px; padding: 10px 20px; font-size: 1em;">Calculate</button>
             </div>
@@ -662,6 +670,7 @@
                     console.log('After updateCustomApiTable');
                     updateUpsellTable();
                     console.log('After updateUpsellTable');
+                    updateTrueCosts();
                 } catch (err) {
                     console.error('Error in Calculate button handler:', err);
                 }
@@ -944,6 +953,22 @@
             updateCustomApiTable();
             updateUpsellTable();
             console.log('Initial calculations complete');
+
+            function updateTrueCosts() {
+                const gmv = parseInt(document.getElementById('annual-gmv').value);
+                // Find the row in costsData with matching GMV
+                let found = costsData.find(row => row[0] === gmv);
+                if (found) {
+                    document.getElementById('true-cost-1y').textContent = `$${found[8].toLocaleString()}`;
+                    document.getElementById('true-cost-3y').textContent = `$${found[9].toLocaleString()}`;
+                } else {
+                    document.getElementById('true-cost-1y').textContent = 'N/A';
+                    document.getElementById('true-cost-3y').textContent = 'N/A';
+                }
+            }
+
+            // Update True Costs when GMV changes
+            document.getElementById('annual-gmv').addEventListener('input', updateTrueCosts);
         } catch (err) {
             console.error('Script initialization error:', err);
         }
