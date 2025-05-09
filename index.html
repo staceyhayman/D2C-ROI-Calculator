@@ -468,70 +468,118 @@
             <h1>Shopify Audiences</h1>
             <div class="section">
                 <div class="section-title">Increased Retargeting with Audiences</div>
-                <table>
+                <table id="audiences-table">
                     <tr>
                         <th>Metric</th>
-                        <th>Value</th>
+                        <th>Current</th>
+                        <th>Low</th>
+                        <th>Med</th>
+                        <th>High</th>
                     </tr>
                     <tr>
                         <td>Digital Ad Spend (Annual)</td>
-                        <td id="audiences-ad-spend">$0.00</td>
+                        <td id="audiences-ad-spend-current">$0.00</td>
+                        <td id="audiences-ad-spend-low">$0.00</td>
+                        <td id="audiences-ad-spend-med">$0.00</td>
+                        <td id="audiences-ad-spend-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Retargeting %</td>
-                        <td id="audiences-retargeting-pct">0%</td>
+                        <td id="audiences-retargeting-pct-current">0%</td>
+                        <td id="audiences-retargeting-pct-low">0%</td>
+                        <td id="audiences-retargeting-pct-med">0%</td>
+                        <td id="audiences-retargeting-pct-high">0%</td>
                     </tr>
                     <tr>
                         <td>Prospecting Spend</td>
-                        <td id="audiences-prospecting-spend">$0.00</td>
+                        <td id="audiences-prospecting-spend-current">$0.00</td>
+                        <td id="audiences-prospecting-spend-low">$0.00</td>
+                        <td id="audiences-prospecting-spend-med">$0.00</td>
+                        <td id="audiences-prospecting-spend-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Retargeting Spend</td>
-                        <td id="audiences-retargeting-spend">$0.00</td>
+                        <td id="audiences-retargeting-spend-current">$0.00</td>
+                        <td id="audiences-retargeting-spend-low">$0.00</td>
+                        <td id="audiences-retargeting-spend-med">$0.00</td>
+                        <td id="audiences-retargeting-spend-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>% Reduction in Retargeting CPA</td>
-                        <td id="audiences-retargeting-cpa-reduction">0%</td>
+                        <td id="audiences-retargeting-cpa-reduction-current">0%</td>
+                        <td id="audiences-retargeting-cpa-reduction-low">0%</td>
+                        <td id="audiences-retargeting-cpa-reduction-med">0%</td>
+                        <td id="audiences-retargeting-cpa-reduction-high">0%</td>
                     </tr>
                     <tr>
                         <td>% Reduction in Prospecting CPA</td>
-                        <td id="audiences-prospecting-cpa-reduction">0%</td>
+                        <td id="audiences-prospecting-cpa-reduction-current">0%</td>
+                        <td id="audiences-prospecting-cpa-reduction-low">0%</td>
+                        <td id="audiences-prospecting-cpa-reduction-med">0%</td>
+                        <td id="audiences-prospecting-cpa-reduction-high">0%</td>
                     </tr>
                     <tr>
                         <td>Prospecting CPA</td>
-                        <td id="audiences-prospecting-cpa">$0.00</td>
+                        <td id="audiences-prospecting-cpa-current">$0.00</td>
+                        <td id="audiences-prospecting-cpa-low">$0.00</td>
+                        <td id="audiences-prospecting-cpa-med">$0.00</td>
+                        <td id="audiences-prospecting-cpa-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Retargeting CPA</td>
-                        <td id="audiences-retargeting-cpa">$0.00</td>
+                        <td id="audiences-retargeting-cpa-current">$0.00</td>
+                        <td id="audiences-retargeting-cpa-low">$0.00</td>
+                        <td id="audiences-retargeting-cpa-med">$0.00</td>
+                        <td id="audiences-retargeting-cpa-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Prospecting Orders</td>
-                        <td id="audiences-prospecting-orders">0</td>
+                        <td id="audiences-prospecting-orders-current">0</td>
+                        <td id="audiences-prospecting-orders-low">0</td>
+                        <td id="audiences-prospecting-orders-med">0</td>
+                        <td id="audiences-prospecting-orders-high">0</td>
                     </tr>
                     <tr>
                         <td>Retargeting Orders</td>
-                        <td id="audiences-retargeting-orders">0</td>
+                        <td id="audiences-retargeting-orders-current">0</td>
+                        <td id="audiences-retargeting-orders-low">0</td>
+                        <td id="audiences-retargeting-orders-med">0</td>
+                        <td id="audiences-retargeting-orders-high">0</td>
                     </tr>
                     <tr>
                         <td>Total Orders</td>
-                        <td id="audiences-total-orders">0</td>
+                        <td id="audiences-total-orders-current">0</td>
+                        <td id="audiences-total-orders-low">0</td>
+                        <td id="audiences-total-orders-med">0</td>
+                        <td id="audiences-total-orders-high">0</td>
                     </tr>
                     <tr>
                         <td>Increased Orders due to Audiences</td>
-                        <td id="audiences-increased-orders">0</td>
+                        <td id="audiences-increased-orders-current">0</td>
+                        <td id="audiences-increased-orders-low">0</td>
+                        <td id="audiences-increased-orders-med">0</td>
+                        <td id="audiences-increased-orders-high">0</td>
                     </tr>
                     <tr>
                         <td>LTV</td>
-                        <td id="audiences-ltv">$0.00</td>
+                        <td id="audiences-ltv-current">$0.00</td>
+                        <td id="audiences-ltv-low">$0.00</td>
+                        <td id="audiences-ltv-med">$0.00</td>
+                        <td id="audiences-ltv-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Revenue Impact due to Audiences</td>
-                        <td id="audiences-revenue-impact">$0.00</td>
+                        <td id="audiences-revenue-impact-current">$0.00</td>
+                        <td id="audiences-revenue-impact-low">$0.00</td>
+                        <td id="audiences-revenue-impact-med">$0.00</td>
+                        <td id="audiences-revenue-impact-high">$0.00</td>
                     </tr>
                     <tr>
                         <td>Operating Margin</td>
-                        <td id="audiences-operating-margin">0%</td>
+                        <td id="audiences-operating-margin-current">0%</td>
+                        <td id="audiences-operating-margin-low">0%</td>
+                        <td id="audiences-operating-margin-med">0%</td>
+                        <td id="audiences-operating-margin-high">0%</td>
                     </tr>
                 </table>
             </div>
@@ -791,21 +839,21 @@
                                     const revenueImpact = increasedOrders * ltv;
                                     
                                     // Update table
-                                    document.getElementById('audiences-ad-spend').textContent = adSpend.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-                                    document.getElementById('audiences-retargeting-pct').textContent = (retargetingPct * 100).toFixed(0) + '%';
-                                    document.getElementById('audiences-prospecting-spend').textContent = prospectingSpend.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-                                    document.getElementById('audiences-retargeting-spend').textContent = retargetingSpend.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-                                    document.getElementById('audiences-retargeting-cpa-reduction').textContent = (retargetingCPAReduction * 100).toFixed(0) + '%';
-                                    document.getElementById('audiences-prospecting-cpa-reduction').textContent = (prospectingCPAReduction * 100).toFixed(0) + '%';
-                                    document.getElementById('audiences-prospecting-cpa').textContent = newProspectingCPA.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-                                    document.getElementById('audiences-retargeting-cpa').textContent = newRetargetingCPA.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-                                    document.getElementById('audiences-prospecting-orders').textContent = Math.round(prospectingOrders).toLocaleString();
-                                    document.getElementById('audiences-retargeting-orders').textContent = Math.round(retargetingOrders).toLocaleString();
-                                    document.getElementById('audiences-total-orders').textContent = Math.round(totalOrders).toLocaleString();
-                                    document.getElementById('audiences-increased-orders').textContent = Math.round(increasedOrders).toLocaleString();
-                                    document.getElementById('audiences-ltv').textContent = ltv.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-                                    document.getElementById('audiences-revenue-impact').textContent = revenueImpact.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-                                    document.getElementById('audiences-operating-margin').textContent = (profitMargin * 100).toFixed(0) + '%';
+                                    document.getElementById('audiences-ad-spend-current').textContent = adSpend.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                                    document.getElementById('audiences-retargeting-pct-current').textContent = (retargetingPct * 100).toFixed(0) + '%';
+                                    document.getElementById('audiences-prospecting-spend-current').textContent = prospectingSpend.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                                    document.getElementById('audiences-retargeting-spend-current').textContent = retargetingSpend.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                                    document.getElementById('audiences-retargeting-cpa-reduction-current').textContent = (retargetingCPAReduction * 100).toFixed(0) + '%';
+                                    document.getElementById('audiences-prospecting-cpa-reduction-current').textContent = (prospectingCPAReduction * 100).toFixed(0) + '%';
+                                    document.getElementById('audiences-prospecting-cpa-current').textContent = newProspectingCPA.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+                                    document.getElementById('audiences-retargeting-cpa-current').textContent = newRetargetingCPA.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+                                    document.getElementById('audiences-prospecting-orders-current').textContent = Math.round(prospectingOrders).toLocaleString();
+                                    document.getElementById('audiences-retargeting-orders-current').textContent = Math.round(retargetingOrders).toLocaleString();
+                                    document.getElementById('audiences-total-orders-current').textContent = Math.round(totalOrders).toLocaleString();
+                                    document.getElementById('audiences-increased-orders-current').textContent = Math.round(increasedOrders).toLocaleString();
+                                    document.getElementById('audiences-ltv-current').textContent = ltv.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+                                    document.getElementById('audiences-revenue-impact-current').textContent = revenueImpact.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+                                    document.getElementById('audiences-operating-margin-current').textContent = (profitMargin * 100).toFixed(0) + '%';
                                 } else {
                                     document.getElementById(`${prefix}-conv-increase`).textContent = `${(data.convIncrease * 100).toFixed(1)}%`;
                                     document.getElementById(`${prefix}-new-conv`).textContent = `${(newConversionRate * 100).toFixed(2)}%`;
